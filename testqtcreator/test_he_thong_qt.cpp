@@ -193,12 +193,20 @@ void TestHeThongQt::testQuanLyTheRfid()
 void TestHeThongQt::testLichSuRaVao()
 {
     QString loi;
+    int idLichSuChoXacNhan = -1;
 
     QVERIFY(CoSoDuLieu::themLichSuRaVao(
         "D72D6303",
         "Hieu cap nhat",
         "SV002",
         "GRANTED",
+        "CHO XAC NHAN",
+        loi,
+        &idLichSuChoXacNhan
+    ));
+    QVERIFY(idLichSuChoXacNhan > 0);
+    QVERIFY(CoSoDuLieu::capNhatTrangThaiCuaLichSu(
+        idLichSuChoXacNhan,
         "OPENED",
         loi
     ));
@@ -212,6 +220,10 @@ void TestHeThongQt::testLichSuRaVao()
     ));
 
     QCOMPARE(CoSoDuLieu::layLichSuRaVao().size(), 2);
+    QCOMPARE(
+        CoSoDuLieu::layLichSuRaVao().at(1).trangThaiCua,
+        QString("OPENED")
+    );
     QCOMPARE(
         CoSoDuLieu::timKiemLichSuRaVao("D72D", "GRANTED").size(),
         1

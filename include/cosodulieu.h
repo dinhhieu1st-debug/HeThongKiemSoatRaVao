@@ -140,6 +140,14 @@ public:
         const QString &maSo,
         const QString &ketQua,
         const QString &trangThaiCua,
+        QString &thongBaoLoi,
+        int *idLichSuMoi = nullptr
+    );
+
+    // Cap nhat trang thai cua cua mot lan quet da luu
+    static bool capNhatTrangThaiCuaLichSu(
+        int idLichSu,
+        const QString &trangThaiCua,
         QString &thongBaoLoi
     );
 

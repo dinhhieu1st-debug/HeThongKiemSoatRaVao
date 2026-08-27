@@ -98,7 +98,7 @@ private:
     );
 
     // Luu mot lan quet the vao lich su
-    void luuLichSuRaVao(
+    int luuLichSuRaVao(
         const QString &uid,
         const QString &hoTen,
         const QString &maSo,
@@ -134,6 +134,9 @@ private:
 
     // Luu UID gan nhat nhan duoc tu ESP32
     QString uidVuaQuet;
+
+    // Ban ghi dang cho ESP32 xac nhan cua da mo
+    int idLichSuDangChoMoCua;
 
     // Thong tin tai khoan dang su dung
     QString tenDangNhapHienTai;

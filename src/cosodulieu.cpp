@@ -1043,7 +1043,8 @@ bool CoSoDuLieu::themLichSuRaVao(
     const QString &maSo,
     const QString &ketQua,
     const QString &trangThaiCua,
-    QString &thongBaoLoi
+    QString &thongBaoLoi,
+    int *idLichSuMoi
 )
 {
     QSqlDatabase coSoDuLieu =
@@ -1112,6 +1113,66 @@ bool CoSoDuLieu::themLichSuRaVao(
     {
         thongBaoLoi =
             truyVan.lastError().text();
+
+        return false;
+    }
+
+    if (idLichSuMoi != nullptr)
+    {
+        *idLichSuMoi =
+            truyVan.lastInsertId().toInt();
+    }
+
+    return true;
+}
+
+bool CoSoDuLieu::capNhatTrangThaiCuaLichSu(
+    int idLichSu,
+    const QString &trangThaiCua,
+    QString &thongBaoLoi
+)
+{
+    QSqlDatabase coSoDuLieu =
+        QSqlDatabase::database("ket_noi_chinh");
+
+    if (!coSoDuLieu.isOpen())
+    {
+        thongBaoLoi =
+            "Co so du lieu chua duoc mo";
+
+        return false;
+    }
+
+    QSqlQuery truyVan(coSoDuLieu);
+
+    truyVan.prepare(
+        "UPDATE lich_su_ra_vao "
+        "SET trang_thai_cua = :trang_thai_cua "
+        "WHERE id = :id"
+    );
+
+    truyVan.bindValue(
+        ":trang_thai_cua",
+        trangThaiCua.trimmed()
+    );
+
+    truyVan.bindValue(
+        ":id",
+        idLichSu
+    );
+
+    if (!truyVan.exec())
+    {
+        thongBaoLoi =
+            truyVan.lastError().text();
+
+        return false;
+    }
+
+    if (truyVan.numRowsAffected() != 1)
+    {
+        thongBaoLoi =
+            "Khong tim thay lich su can cap nhat";
 
         return false;
     }
@@ -1240,4 +1301,3 @@ CoSoDuLieu::timKiemLichSuRaVao(
 
     return danhSach;
 }
-

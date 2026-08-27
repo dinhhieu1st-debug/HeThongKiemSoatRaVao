@@ -25,6 +25,80 @@
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
 
+namespace
+{
+QString chuanHoaTrangThaiCuaHienThi(
+    const QString &trangThai
+)
+{
+    const QString trangThaiChuan =
+        trangThai.trimmed().toUpper();
+
+    if (
+        trangThaiChuan == "OPEN" ||
+        trangThaiChuan == "OPENED" ||
+        trangThaiChuan == "DANG MO" ||
+        trangThaiChuan == "DA MO"
+    )
+    {
+        return QString::fromUtf8("ĐÃ MỞ");
+    }
+
+    if (
+        trangThaiChuan == "CLOSE" ||
+        trangThaiChuan == "CLOSED" ||
+        trangThaiChuan == "DANG DONG" ||
+        trangThaiChuan == "DA DONG"
+    )
+    {
+        return QString::fromUtf8("ĐÃ ĐÓNG");
+    }
+
+    if (
+        trangThaiChuan == "PENDING" ||
+        trangThaiChuan == "CHO XAC NHAN"
+    )
+    {
+        return QString::fromUtf8("CHỜ XÁC NHẬN");
+    }
+
+    if (trangThaiChuan == "KHONG MO DUOC")
+    {
+        return QString::fromUtf8("KHÔNG MỞ ĐƯỢC");
+    }
+
+    return trangThai.isEmpty()
+        ? QString::fromUtf8("KHÔNG XÁC ĐỊNH")
+        : trangThai;
+}
+
+QString chuanHoaKetQuaHienThi(
+    const QString &ketQua
+)
+{
+    const QString ketQuaChuan =
+        ketQua.trimmed().toUpper();
+
+    if (
+        ketQuaChuan == "GRANTED" ||
+        ketQuaChuan == "CHO PHEP"
+    )
+    {
+        return QString::fromUtf8("CHO PHÉP");
+    }
+
+    if (
+        ketQuaChuan == "DENIED" ||
+        ketQuaChuan == "TU CHOI"
+    )
+    {
+        return QString::fromUtf8("TỪ CHỐI");
+    }
+
+    return ketQua;
+}
+}
+
 Cuasochinh::Cuasochinh(
     const QString &tenDangNhap,
     const QString &hoTenNguoiDung,
@@ -34,6 +108,7 @@ Cuasochinh::Cuasochinh(
     : QMainWindow(cha),
       ui(new Ui::Cuasochinh),
       ketNoiBle(new KetNoiBle(this)),
+      idLichSuDangChoMoCua(-1),
       tenDangNhapHienTai(tenDangNhap),
       hoTenNguoiDungHienTai(hoTenNguoiDung),
       quyenNguoiDungHienTai(quyenNguoiDung)
@@ -858,7 +933,9 @@ void Cuasochinh::xuLyXuatCsvLichSu()
             this,
             "Chon noi luu lich su",
             tenFileMacDinh,
-            "Tep CSV (*.csv)"
+            "Tep CSV (*.csv)",
+            nullptr,
+            QFileDialog::DontUseNativeDialog
         );
 
     if (duongDanFile.isEmpty())
@@ -1313,6 +1390,8 @@ void Cuasochinh::xuLyUidRfid(
     const QString &uid
 )
 {
+    idLichSuDangChoMoCua = -1;
+
     uidVuaQuet =
         uid.trimmed().toUpper();
 
@@ -1395,13 +1474,20 @@ void Cuasochinh::xuLyUidRfid(
             );
         }
 
-        luuLichSuRaVao(
-            uidVuaQuet,
-            thongTinThe.hoTen,
-            thongTinThe.maSo,
-            "CHO PHEP",
-            trangThaiCua
-        );
+        const int idLichSuMoi =
+            luuLichSuRaVao(
+                uidVuaQuet,
+                thongTinThe.hoTen,
+                thongTinThe.maSo,
+                "CHO PHEP",
+                trangThaiCua
+            );
+
+        if (trangThaiCua == "CHO XAC NHAN")
+        {
+            idLichSuDangChoMoCua =
+                idLichSuMoi;
+        }
 
         return;
     }
@@ -1507,27 +1593,40 @@ void Cuasochinh::xuLyTrangThaiCua(
     const QString duLieu =
         trangThai.trimmed().toUpper();
 
-    if (duLieu == "OPENED")
+    ui->nhanTrangThaiCua->setText(
+        chuanHoaTrangThaiCuaHienThi(duLieu)
+    );
+
+    if (
+        duLieu == "OPENED" &&
+        idLichSuDangChoMoCua >= 0
+    )
     {
-        ui->nhanTrangThaiCua->setText(
-            "Dang mo"
-        );
-    }
-    else if (duLieu == "CLOSED")
-    {
-        ui->nhanTrangThaiCua->setText(
-            "Dang dong"
-        );
-    }
-    else
-    {
-        ui->nhanTrangThaiCua->setText(
-            duLieu
-        );
+        QString thongBaoLoi;
+
+        if (
+            CoSoDuLieu::capNhatTrangThaiCuaLichSu(
+                idLichSuDangChoMoCua,
+                duLieu,
+                thongBaoLoi
+            )
+        )
+        {
+            idLichSuDangChoMoCua = -1;
+            taiLichSuRaVao();
+        }
+        else
+        {
+            ghiNhatKy(
+                "Khong cap nhat duoc trang thai cua trong lich su: " +
+                thongBaoLoi
+            );
+        }
     }
 
     ghiNhatKy(
-        "Trang thai cua: " + duLieu
+        "Trang thai cua: " +
+        chuanHoaTrangThaiCuaHienThi(duLieu)
     );
 }
 
@@ -1875,7 +1974,9 @@ void Cuasochinh::hienThiLichSuRaVao(
             dong,
             4,
             new QTableWidgetItem(
-                lichSu.ketQua
+                chuanHoaKetQuaHienThi(
+                    lichSu.ketQua
+                )
             )
         );
 
@@ -1883,13 +1984,15 @@ void Cuasochinh::hienThiLichSuRaVao(
             dong,
             5,
             new QTableWidgetItem(
-                lichSu.trangThaiCua
+                chuanHoaTrangThaiCuaHienThi(
+                    lichSu.trangThaiCua
+                )
             )
         );
     }
 }
 
-void Cuasochinh::luuLichSuRaVao(
+int Cuasochinh::luuLichSuRaVao(
     const QString &uid,
     const QString &hoTen,
     const QString &maSo,
@@ -1898,6 +2001,7 @@ void Cuasochinh::luuLichSuRaVao(
 )
 {
     QString thongBaoLoi;
+    int idLichSuMoi = -1;
 
     const bool thanhCong =
         CoSoDuLieu::themLichSuRaVao(
@@ -1906,7 +2010,8 @@ void Cuasochinh::luuLichSuRaVao(
             maSo,
             ketQua,
             trangThaiCua,
-            thongBaoLoi
+            thongBaoLoi,
+            &idLichSuMoi
         );
 
     if (!thanhCong)
@@ -1916,7 +2021,7 @@ void Cuasochinh::luuLichSuRaVao(
             thongBaoLoi
         );
 
-        return;
+        return -1;
     }
 
     ghiNhatKy(
@@ -1924,6 +2029,8 @@ void Cuasochinh::luuLichSuRaVao(
     );
 
     taiLichSuRaVao();
+
+    return idLichSuMoi;
 }
 
 bool Cuasochinh::kiemTraThongTinNhap()
