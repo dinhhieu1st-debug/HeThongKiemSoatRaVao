@@ -1,0 +1,33 @@
+# CMake / Qt Creator generated files
+build/
+build-*/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+*.autosave
+*.user
+*.user.*
+CMakeLists.txt.user*
+
+# Runtime data
+data/
+config/
+*.sqlite
+*.sqlite-journal
+*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test outputs
+tests/esp32_mock/run_esp_tests
+tests/esp32_mock/*.o
+testqtcreator/build/
+*.zip
+
+# OS/editor noise
+.DS_Store
+*~
+.vscode/
+.idea/

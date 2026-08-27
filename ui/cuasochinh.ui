@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Cuasochinh</class>
+ <widget class="QMainWindow" name="Cuasochinh">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1100</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>He thong kiem soat ra vao</string>
+  </property>
+  <widget class="QWidget" name="widgetTrungTam">
+   <layout class="QVBoxLayout" name="boCucChinh">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>20</number>
+    </property>
+    <property name="topMargin">
+     <number>15</number>
+    </property>
+    <property name="rightMargin">
+     <number>20</number>
+    </property>
+    <property name="bottomMargin">
+     <number>15</number>
+    </property>
+    <item>
+     <widget class="QLabel" name="nhanTieuDe">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>55</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>22</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>HE THONG KIEM SOAT RA VAO</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="boCucTrangThai">
+      <item>
+       <widget class="QGroupBox" name="khungKetNoi">
+        <property name="title">
+         <string>Ket noi thiet bi</string>
+        </property>
+        <layout class="QVBoxLayout" name="boCucKetNoi">
+         <item>
+          <widget class="QLabel" name="nhanTrangThaiKetNoi">
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>BLE: Chua ket noi
+Kenh hien tai: Cho nguoi dung chon</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="khungCamBien">
+        <property name="title">
+         <string>Cam bien vat can</string>
+        </property>
+        <layout class="QVBoxLayout" name="boCucCamBien">
+         <item>
+          <widget class="QLabel" name="nhanTrangThaiCamBien">
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Khong co nguoi</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="khungCua">
+        <property name="title">
+         <string>Trang thai cua</string>
+        </property>
+        <layout class="QVBoxLayout" name="boCucCua">
+         <item>
+          <widget class="QLabel" name="nhanTrangThaiCua">
+           <property name="font">
+            <font>
+             <pointsize>13</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Dang dong</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="cacTrangChucNang">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="trangGiamSat">
+       <attribute name="title">
+        <string>Giam sat</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="boCucTrangGiamSat">
+        <item>
+         <layout class="QHBoxLayout" name="boCucThongTinVaDieuKhien">
+          <item>
+           <widget class="QGroupBox" name="khungThongTinThe">
+            <property name="title">
+             <string>Thong tin the RFID vua quet</string>
+            </property>
+            <layout class="QFormLayout" name="boCucThongTinThe">
+             <item row="0" column="0">
+              <widget class="QLabel" name="nhanUid">
+               <property name="text">
+                <string>UID:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="giaTriUid">
+               <property name="font">
+                <font>
+                 <pointsize>13</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Chua co du lieu</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="nhanChuThe">
+               <property name="text">
+                <string>Chu the:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="giaTriChuThe">
+               <property name="text">
+                <string>Chua xac dinh</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="nhanKetQua">
+               <property name="text">
+                <string>Ket qua:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="giaTriKetQua">
+               <property name="font">
+                <font>
+                 <pointsize>13</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Dang cho quet the</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="nhanThoiGian">
+               <property name="text">
+                <string>Thoi gian:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLabel" name="giaTriThoiGian">
+               <property name="text">
+                <string>--:--:--</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="khungDieuKhien">
+            <property name="title">
+             <string>Dieu khien he thong</string>
+            </property>
+            <layout class="QVBoxLayout" name="boCucDieuKhien">
+             <item>
+              <widget class="QPushButton" name="nutKetNoiBle">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>42</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>KET NOI BLE</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="nutMoCua">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>42</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>MO CUA</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="nutDongCua">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>42</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>DONG CUA</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="khungNhatKy">
+          <property name="title">
+           <string>Nhat ky he thong</string>
+          </property>
+          <layout class="QVBoxLayout" name="boCucNhatKy">
+           <item>
+            <widget class="QPlainTextEdit" name="oNhatKy">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="plainText">
+              <string>He thong da khoi dong.
+Hay chon ket noi BLE.</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="trangQuanLyThe">
+       <attribute name="title">
+        <string>Quan ly the</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="boCucTrangQuanLyThe">
+        <item>
+         <widget class="QGroupBox" name="khungNhapThongTinThe">
+          <property name="title">
+           <string>Thong tin the RFID</string>
+          </property>
+          <layout class="QGridLayout" name="boCucNhapThongTinThe">
+           <item row="0" column="0">
+            <widget class="QLabel" name="nhanNhapUid">
+             <property name="text">
+              <string>UID the:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="oNhapUid">
+             <property name="placeholderText">
+              <string>Vi du: C5C64801</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="nhanNhapHoTen">
+             <property name="text">
+              <string>Ho va ten:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="oNhapHoTen">
+             <property name="placeholderText">
+              <string>Nhap ten chu the</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="nhanNhapMaSo">
+             <property name="text">
+              <string>Ma so:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="oNhapMaSo">
+             <property name="placeholderText">
+              <string>Ma sinh vien hoac ma nhan vien</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="nhanNhapVaiTro">
+             <property name="text">
+              <string>Vai tro:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="hopVaiTro">
+             <item>
+              <property name="text">
+               <string>Sinh vien</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Giang vien</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Nhan vien</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Quan tri vien</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QPushButton" name="nutLayUidVuaQuet">
+             <property name="minimumSize">
+              <size>
+               <width>180</width>
+               <height>38</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>LAY UID VUA QUET</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QPushButton" name="nutThemThe">
+             <property name="minimumSize">
+              <size>
+               <width>180</width>
+               <height>38</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>THEM THE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QPushButton" name="nutCapNhatThe">
+             <property name="minimumSize">
+              <size>
+               <width>180</width>
+               <height>38</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>CAP NHAT THE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QPushButton" name="nutXoaThe">
+             <property name="minimumSize">
+              <size>
+               <width>180</width>
+               <height>38</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>XOA THE</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="khungDanhSachThe">
+          <property name="title">
+           <string>Danh sach the da dang ky</string>
+          </property>
+          <layout class="QVBoxLayout" name="boCucDanhSachThe">
+           <item>
+            <layout class="QHBoxLayout" name="boCucTimKiem">
+             <item>
+              <widget class="QLineEdit" name="oTimKiemThe">
+               <property name="placeholderText">
+                <string>Tim theo UID, ho ten hoac ma so</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="nutTimKiemThe">
+               <property name="text">
+                <string>TIM KIEM</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="nutTaiLaiDanhSach">
+               <property name="text">
+                <string>TAI LAI</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="bangDanhSachThe">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="rowCount">
+              <number>0</number>
+             </property>
+             <property name="columnCount">
+              <number>5</number>
+             </property>
+             <column>
+              <property name="text">
+               <string>UID</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Ho va ten</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Ma so</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Vai tro</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Ngay dang ky</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="trangLichSu">
+       <attribute name="title">
+        <string>Lich su ra vao</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="boCucTrangLichSu">
+        <item>
+         <layout class="QHBoxLayout" name="boCucTimKiemLichSu">
+          <item>
+           <widget class="QLineEdit" name="oTimKiemLichSu">
+            <property name="placeholderText">
+             <string>Nhap UID, ho ten hoac ma so</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="hopLocKetQuaLichSu">
+            <item>
+             <property name="text">
+              <string>Tat ca ket qua</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CHO PHEP</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TU CHOI</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="nutTimKiemLichSu">
+            <property name="text">
+             <string>TIM KIEM</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="nutTaiLaiLichSu">
+            <property name="text">
+             <string>TAI LAI</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="nutXuatCsvLichSu">
+            <property name="text">
+             <string>XUAT CSV</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="bangLichSuRaVao">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="rowCount">
+           <number>0</number>
+          </property>
+          <property name="columnCount">
+           <number>6</number>
+          </property>
+          <column>
+           <property name="text">
+            <string>Thoi gian</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>UID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Ho va ten</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Ma so</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Ket qua</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Trang thai cua</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="thanhMenu">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="thanhTrangThai"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
