@@ -61,11 +61,6 @@ Nên đổi mật khẩu mặc định ngay sau lần đăng nhập đầu tiên
 ├── ui/                         # Giao diện Qt Designer
 ├── scripts/
 │   └── deploy_to_pi.sh         # Build ARM64, chép và chạy trên Pi
-├── tests/
-│   └── esp32_mock/             # Unit test C dùng mock, không phải firmware thật
-├── testqtcreator/              # Qt Test cho cấu hình, SQLite và nghiệp vụ dữ liệu
-├── docs/
-│   └── test-reports/           # Báo cáo kiểm thử đã tạo
 └── build-pi/                   # Sản phẩm cross-build, được CMake tạo lại
 ```
 
@@ -74,8 +69,6 @@ Firmware ESP32 thật hiện được quản lý ở project PlatformIO riêng t
 ```text
 C:\Users\admin\Documents\PlatformIO\Projects\RFID
 ```
-
-Không dùng mã trong `tests/esp32_mock/` để nạp lên ESP32.
 
 ## 4. Giao thức BLE
 
@@ -131,7 +124,53 @@ Các file runtime nằm cạnh binary:
 
 SQLite có ba bảng chính: `tai_khoan`, `the_rfid` và `lich_su_ra_vao`. Mật khẩu được lưu dưới dạng SHA-256; đây là mức bảo vệ hiện tại của ứng dụng, chưa phải cơ chế băm mật khẩu có salt chuyên dụng.
 
-## 6. Cross-compile ARM64
+## Quy ước đặt tên C++/Qt
+
+- Biến, hàm và signal/slot dùng `camelCase`.
+- Lớp và `struct` dùng `PascalCase`.
+- Hằng và macro dùng `UPPER_CASE`.
+- `objectName` của Qt widget phải dùng tiền tố kiểu widget: `btn`, `txt`,
+  `lbl`, `cb`, `table`, `timer`, `grp`, `tab`, `wdg`, `menu` hoặc `status`.
+- Tên phải mô tả chức năng; không dùng tên mặc định Qt Designer sinh ra.
+
+## Quy ước tổ chức file `.h` và `.cpp`
+
+- File `.h` chỉ khai báo lớp, struct, signal/slot, hàm và biến thành viên.
+- File `.cpp` include header tương ứng đầu tiên rồi cài đặt các hàm đã khai báo.
+- Header chỉ include dependency cần có kiểu hoàn chỉnh; dùng forward declaration cho
+  widget Qt được lưu bằng con trỏ.
+- File `ui_*.h` do Qt Designer sinh tự động chỉ được include trong `.cpp`.
+- Kiểu trợ giúp có thể tái sử dụng phải có cặp `.h`/`.cpp`; chi tiết nội bộ chỉ dùng
+  trong một source được giữ trong anonymous namespace của source đó.
+
+## Quy ước Signal và Slot Qt
+
+- Dùng cú pháp `connect()` type-safe với con trỏ hàm, không dùng `SIGNAL()`/`SLOT()`
+  dựa trên chuỗi.
+- Slot đặt tên bằng động từ thể hiện việc xử lý, ví dụ `xuLyYeuCauKetNoiBle()`.
+- Slot nhận sự kiện chỉ điều phối xử lý và cập nhật giao diện sau khi dữ liệu hợp lệ.
+- Lambda kết nối signal phải có context object để Qt tự ngắt kết nối khi context bị hủy.
+- Không cập nhật widget từ luồng khác; dự án hiện xử lý UI trên Qt main thread.
+
+## Quy ước tách logic khỏi Slot/Event
+
+- Slot chỉ làm nhiệm vụ nhận sự kiện và điều phối tới hàm chức năng private.
+- Nghiệp vụ CRUD, xuất dữ liệu và kiểm tra đầu vào đặt trong hàm có tên mô tả rõ
+  chức năng, ví dụ `themTheTuGiaoDien()` hoặc `xuatCsvLichSu()`.
+- Hàm xử lý frame BLE phân luồng tới các hàm nghiệp vụ private; chỉ các hàm được
+  `connect()` trực tiếp mới nằm trong phần `slots`.
+
+## Quy ước quản lý đối tượng và tài nguyên Qt
+
+- Widget và `QObject` tạo động phải nhận parent phù hợp để Qt tự giải phóng theo
+  cây parent-child.
+- Không `delete` thủ công QObject đã có parent; dùng `deleteLater()` khi cần hủy
+  đối tượng đang tham gia event loop.
+- Tài nguyên không phải QObject dùng RAII, ví dụ `std::unique_ptr` cho UI được
+  Qt Designer sinh ra.
+- Dùng `nullptr` và kiểm tra con trỏ trước khi truy cập khi giá trị có thể rỗng.
+
+## 7. Cross-compile ARM64
 
 Các đường dẫn toolchain đang dùng trên máy ảo:
 
@@ -158,7 +197,7 @@ file build-pi/Hethongkiemsoatravao
 
 Kết quả của lệnh `file` phải chứa `ARM aarch64`. Không dùng Qt tại `/usr/lib/x86_64-linux-gnu` vì đó là Qt của máy ảo và không tạo được chương trình chạy trên Pi.
 
-## 7. Build và chạy từ Qt Creator
+## 8. Build và chạy từ Qt Creator
 
 1. Mở file `CMakeLists.txt` bằng Qt Creator.
 2. Chọn cấu hình `RaspberryPi ARM64`.
@@ -167,7 +206,7 @@ Kết quả của lệnh `file` phải chứa `ARM aarch64`. Không dùng Qt t�
 
 Qt Creator phải dùng build directory `build-pi`. Nếu xuất hiện đường dẫn Qt6 trong `/usr/lib/x86_64-linux-gnu`, đang chọn nhầm Desktop Kit.
 
-## 8. Triển khai bằng terminal
+## 9. Triển khai bằng terminal
 
 Pi hiện được cấu hình tại `192.168.137.227`; SSH key phải đăng nhập được cho tài khoản `pi`.
 
@@ -176,15 +215,6 @@ Pi hiện được cấu hình tại `192.168.137.227`; SSH key phải đăng nh
 ```
 
 Script sẽ dừng nếu binary không phải ARM aarch64. Có thể thay `PI_IP` trong script nếu địa chỉ Pi thay đổi.
-
-## 9. Chạy unit test mô phỏng ESP32
-
-```bash
-cd tests/esp32_mock
-./run_tests.sh
-```
-
-Bộ test này chạy bằng GCC trên máy ảo, kiểm tra logic mock cho cảm biến và kết nối. Một số test Wi-Fi cũ được giữ để tham khảo nhưng không phản ánh cấu hình BLE-only đang triển khai. Báo cáo nằm trong `docs/test-reports/`.
 
 ## 10. Xử lý sự cố nhanh
 
@@ -195,7 +225,7 @@ Bộ test này chạy bằng GCC trên máy ảo, kiểm tra logic mock cho cả
 - **Qt báo thiếu Bluetooth:** kiểm tra Kit ARM64 và `Qt6_DIR`; không cài bù module vào Qt x86_64 để giải quyết cross-build.
 - **Chương trình không hiện trên Pi:** xem `/home/pi/hethongkiemsoatravao.log`, phiên đồ họa `DISPLAY=:0` và quyền truy cập X/DBus.
 
-## 11. Lưu ý bảo trì
+## 12. Lưu ý bảo trì
 
 - Backup cả project Qt này và project PlatformIO trước khi đổi giao thức BLE hoặc chân phần cứng.
 - Khi đổi UUID/topic phải sửa đồng thời firmware ESP32 và `src/ketnoible.cpp`/`src/cuasochinh.cpp`.

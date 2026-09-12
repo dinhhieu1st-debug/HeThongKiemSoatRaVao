@@ -99,14 +99,14 @@ QString chuanHoaKetQuaHienThi(
 }
 }
 
-Cuasochinh::Cuasochinh(
+CuaSoChinh::CuaSoChinh(
     const QString &tenDangNhap,
     const QString &hoTenNguoiDung,
     const QString &quyenNguoiDung,
     QWidget *cha
 )
     : QMainWindow(cha),
-      ui(new Ui::Cuasochinh),
+      ui(std::make_unique<Ui::CuaSoChinh>()),
       ketNoiBle(new KetNoiBle(this)),
       idLichSuDangChoMoCua(-1),
       tenDangNhapHienTai(tenDangNhap),
@@ -157,7 +157,7 @@ Cuasochinh::Cuasochinh(
         hanhDongDangXuat,
         &QAction::triggered,
         this,
-        &Cuasochinh::xuLyDangXuat
+        &CuaSoChinh::xuLyDangXuat
     );
 
     connect(
@@ -198,7 +198,7 @@ Cuasochinh::Cuasochinh(
         hanhDongQuanLyTaiKhoan,
         &QAction::triggered,
         this,
-        &Cuasochinh::xuLyMoQuanLyTaiKhoan
+        &CuaSoChinh::xuLyMoQuanLyTaiKhoan
     );
 
     // Chi quan tri vien duoc mo quan ly tai khoan
@@ -226,32 +226,32 @@ Cuasochinh::Cuasochinh(
         quyenNguoiDungHienTai
     );
 
-    // Cau hinh bang danh sach the
-    ui->bangDanhSachThe
+    // Cau hinh tableBleDevices danh sach the
+    ui->tableCardList
         ->horizontalHeader()
         ->setSectionResizeMode(QHeaderView::Stretch);
 
-    ui->bangDanhSachThe
+    ui->tableCardList
         ->setSelectionMode(
             QAbstractItemView::SingleSelection
         );
 
-    ui->bangDanhSachThe
+    ui->tableCardList
         ->setSelectionBehavior(
             QAbstractItemView::SelectRows
         );
 
-    // Cau hinh bang lich su ra vao
-    ui->bangLichSuRaVao
+    // Cau hinh tableBleDevices lich su ra vao
+    ui->tableAccessHistory
         ->horizontalHeader()
         ->setSectionResizeMode(QHeaderView::Stretch);
 
-    ui->bangLichSuRaVao
+    ui->tableAccessHistory
         ->setSelectionMode(
             QAbstractItemView::SingleSelection
         );
 
-    ui->bangLichSuRaVao
+    ui->tableAccessHistory
         ->setSelectionBehavior(
             QAbstractItemView::SelectRows
         );
@@ -262,151 +262,151 @@ Cuasochinh::Cuasochinh(
 
     // Ket noi cac nut quan ly the
     connect(
-        ui->nutThemThe,
+        ui->btnAddCard,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyThemThe
+        &CuaSoChinh::xuLyThemThe
     );
 
     connect(
-        ui->nutCapNhatThe,
+        ui->btnUpdateCard,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyCapNhatThe
+        &CuaSoChinh::xuLyCapNhatThe
     );
 
     connect(
-        ui->nutXoaThe,
+        ui->btnDeleteCard,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyXoaThe
+        &CuaSoChinh::xuLyXoaThe
     );
 
     connect(
-        ui->nutTimKiemThe,
+        ui->btnSearchCard,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyTimKiemThe
+        &CuaSoChinh::xuLyTimKiemThe
     );
 
     connect(
-        ui->nutTaiLaiDanhSach,
+        ui->btnReloadList,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyTaiLaiDanhSach
+        &CuaSoChinh::xuLyTaiLaiDanhSach
     );
 
     connect(
-        ui->nutLayUidVuaQuet,
+        ui->btnUseScannedUid,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyLayUidVuaQuet
+        &CuaSoChinh::xuLyLayUidVuaQuet
     );
 
     connect(
-        ui->bangDanhSachThe,
+        ui->tableCardList,
         &QTableWidget::cellClicked,
         this,
-        &Cuasochinh::xuLyChonDongTrongBang
+        &CuaSoChinh::xuLyChonDongTrongBang
     );
 
     connect(
-        ui->oTimKiemThe,
+        ui->txtCardSearch,
         &QLineEdit::returnPressed,
         this,
-        &Cuasochinh::xuLyTimKiemThe
+        &CuaSoChinh::xuLyTimKiemThe
     );
 
     // Ket noi cac chuc nang tim kiem lich su
     connect(
-        ui->nutTimKiemLichSu,
+        ui->btnSearchHistory,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyTimKiemLichSu
+        &CuaSoChinh::xuLyTimKiemLichSu
     );
 
     connect(
-        ui->nutTaiLaiLichSu,
+        ui->btnReloadHistory,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyTaiLaiLichSu
+        &CuaSoChinh::xuLyTaiLaiLichSu
     );
 
     connect(
-        ui->nutXuatCsvLichSu,
+        ui->btnExportHistoryCsv,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyXuatCsvLichSu
+        &CuaSoChinh::xuLyXuatCsvLichSu
     );
 
     connect(
-        ui->oTimKiemLichSu,
+        ui->txtHistorySearch,
         &QLineEdit::returnPressed,
         this,
-        &Cuasochinh::xuLyTimKiemLichSu
+        &CuaSoChinh::xuLyTimKiemLichSu
     );
 
     connect(
-        ui->nutKetNoiBle,
+        ui->btnConnectBle,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyNutKetNoiBle
+        &CuaSoChinh::xuLyYeuCauKetNoiBle
     );
 
     connect(
-        ui->nutMoCua,
+        ui->btnOpenDoor,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyMoCua
+        &CuaSoChinh::xuLyMoCua
     );
 
     connect(
-        ui->nutDongCua,
+        ui->btnCloseDoor,
         &QPushButton::clicked,
         this,
-        &Cuasochinh::xuLyDongCua
+        &CuaSoChinh::xuLyDongCua
     );
 
     connect(
         ketNoiBle,
         &KetNoiBle::nhanDuLieu,
         this,
-        &Cuasochinh::xuLyDuLieuTuThietBi
+        &CuaSoChinh::xuLyDuLieuTuThietBi
     );
 
     connect(
         ketNoiBle,
         &KetNoiBle::daKetNoiBle,
         this,
-        &Cuasochinh::xuLyBleDaKetNoi
+        &CuaSoChinh::xuLyBleDaKetNoi
     );
 
     connect(
         ketNoiBle,
         &KetNoiBle::daNgatKetNoiBle,
         this,
-        &Cuasochinh::xuLyBleDaNgatKetNoi
+        &CuaSoChinh::xuLyBleDaNgatKetNoi
     );
 
     connect(
         ketNoiBle,
         &KetNoiBle::coLoi,
         this,
-        &Cuasochinh::xuLyLoiBle
+        &CuaSoChinh::xuLyLoiBle
     );
 
     // Trang thai ban dau
     uidVuaQuet.clear();
 
-    ui->nhanTrangThaiCamBien->setText(
+    ui->lblSensorStatus->setText(
         "Khong co nguoi"
     );
 
-    ui->nhanTrangThaiCua->setText(
+    ui->lblDoorStatus->setText(
         "Dang dong"
     );
 
-    ui->nutKetNoiBle->setText(
+    ui->btnConnectBle->setText(
         "KET NOI BLE"
     );
 
@@ -447,9 +447,9 @@ Cuasochinh::Cuasochinh(
     capNhatTrangThaiKetNoi();
 }
 
-Cuasochinh::~Cuasochinh()
+CuaSoChinh::~CuaSoChinh()
 {
-    // Ngat signal truoc khi huy UI de callback bat dong bo khong truy cap UI cu.
+    // Ngat signal truoc khi btnCancel UI de callback bat dong bo khong truy cap UI cu.
     QObject::disconnect(
         ketNoiBle,
         nullptr,
@@ -459,10 +459,9 @@ Cuasochinh::~Cuasochinh()
 
     ketNoiBle->dung();
 
-    delete ui;
 }
 
-void Cuasochinh::xuLyDangXuat()
+void CuaSoChinh::xuLyDangXuat()
 {
     const QMessageBox::StandardButton luaChon =
         QMessageBox::question(
@@ -489,7 +488,7 @@ void Cuasochinh::xuLyDangXuat()
     close();
 }
 
-void Cuasochinh::apDungPhanQuyen()
+void CuaSoChinh::apDungPhanQuyen()
 {
     const QString quyenChuan =
         quyenNguoiDungHienTai
@@ -501,38 +500,43 @@ void Cuasochinh::apDungPhanQuyen()
 
     if (laQuanTriVien)
     {
-        ui->oNhapUid->setEnabled(true);
-        ui->oNhapHoTen->setEnabled(true);
-        ui->oNhapMaSo->setEnabled(true);
-        ui->hopVaiTro->setEnabled(true);
+        ui->txtUid->setEnabled(true);
+        ui->txtFullName->setEnabled(true);
+        ui->txtId->setEnabled(true);
+        ui->cbRole->setEnabled(true);
 
-        ui->nutThemThe->setEnabled(true);
-        ui->nutCapNhatThe->setEnabled(true);
-        ui->nutXoaThe->setEnabled(true);
-        ui->nutLayUidVuaQuet->setEnabled(true);
+        ui->btnAddCard->setEnabled(true);
+        ui->btnUpdateCard->setEnabled(true);
+        ui->btnDeleteCard->setEnabled(true);
+        ui->btnUseScannedUid->setEnabled(true);
 
-        ui->nutMoCua->setEnabled(true);
-        ui->nutDongCua->setEnabled(true);
+        ui->btnOpenDoor->setEnabled(true);
+        ui->btnCloseDoor->setEnabled(true);
 
         return;
     }
 
     // Nhan vien chi duoc giam sat va xem du lieu
-    ui->oNhapUid->setEnabled(false);
-    ui->oNhapHoTen->setEnabled(false);
-    ui->oNhapMaSo->setEnabled(false);
-    ui->hopVaiTro->setEnabled(false);
+    ui->txtUid->setEnabled(false);
+    ui->txtFullName->setEnabled(false);
+    ui->txtId->setEnabled(false);
+    ui->cbRole->setEnabled(false);
 
-    ui->nutThemThe->setEnabled(false);
-    ui->nutCapNhatThe->setEnabled(false);
-    ui->nutXoaThe->setEnabled(false);
-    ui->nutLayUidVuaQuet->setEnabled(false);
+    ui->btnAddCard->setEnabled(false);
+    ui->btnUpdateCard->setEnabled(false);
+    ui->btnDeleteCard->setEnabled(false);
+    ui->btnUseScannedUid->setEnabled(false);
 
-    ui->nutMoCua->setEnabled(false);
-    ui->nutDongCua->setEnabled(false);
+    ui->btnOpenDoor->setEnabled(false);
+    ui->btnCloseDoor->setEnabled(false);
 }
 
-void Cuasochinh::xuLyThemThe()
+void CuaSoChinh::xuLyThemThe()
+{
+    themTheTuGiaoDien();
+}
+
+void CuaSoChinh::themTheTuGiaoDien()
 {
     if (!kiemTraThongTinNhap())
     {
@@ -540,18 +544,18 @@ void Cuasochinh::xuLyThemThe()
     }
 
     const QString uid =
-        ui->oNhapUid->text()
+        ui->txtUid->text()
             .trimmed()
             .toUpper();
 
     const QString hoTen =
-        ui->oNhapHoTen->text().trimmed();
+        ui->txtFullName->text().trimmed();
 
     const QString maSo =
-        ui->oNhapMaSo->text().trimmed();
+        ui->txtId->text().trimmed();
 
     const QString vaiTro =
-        ui->hopVaiTro->currentText();
+        ui->cbRole->currentText();
 
     QString thongBaoLoi;
 
@@ -606,7 +610,12 @@ void Cuasochinh::xuLyThemThe()
     taiDanhSachThe();
 }
 
-void Cuasochinh::xuLyCapNhatThe()
+void CuaSoChinh::xuLyCapNhatThe()
+{
+    capNhatTheTuGiaoDien();
+}
+
+void CuaSoChinh::capNhatTheTuGiaoDien()
 {
     if (!kiemTraThongTinNhap())
     {
@@ -614,18 +623,18 @@ void Cuasochinh::xuLyCapNhatThe()
     }
 
     const QString uid =
-        ui->oNhapUid->text()
+        ui->txtUid->text()
             .trimmed()
             .toUpper();
 
     const QString hoTen =
-        ui->oNhapHoTen->text().trimmed();
+        ui->txtFullName->text().trimmed();
 
     const QString maSo =
-        ui->oNhapMaSo->text().trimmed();
+        ui->txtId->text().trimmed();
 
     const QString vaiTro =
-        ui->hopVaiTro->currentText();
+        ui->cbRole->currentText();
 
     const QMessageBox::StandardButton luaChon =
         QMessageBox::question(
@@ -677,10 +686,15 @@ void Cuasochinh::xuLyCapNhatThe()
     taiDanhSachThe();
 }
 
-void Cuasochinh::xuLyXoaThe()
+void CuaSoChinh::xuLyXoaThe()
+{
+    xoaTheTuGiaoDien();
+}
+
+void CuaSoChinh::xoaTheTuGiaoDien()
 {
     const QString uid =
-        ui->oNhapUid->text()
+        ui->txtUid->text()
             .trimmed()
             .toUpper();
 
@@ -689,7 +703,7 @@ void Cuasochinh::xuLyXoaThe()
         QMessageBox::warning(
             this,
             "Xoa the",
-            "Hay chon mot dong trong bang "
+            "Hay chon mot dong trong tableBleDevices "
             "hoac nhap UID can xoa."
         );
 
@@ -743,10 +757,10 @@ void Cuasochinh::xuLyXoaThe()
     taiDanhSachThe();
 }
 
-void Cuasochinh::xuLyTimKiemThe()
+void CuaSoChinh::xuLyTimKiemThe()
 {
     const QString tuKhoa =
-        ui->oTimKiemThe->text().trimmed();
+        ui->txtCardSearch->text().trimmed();
 
     if (tuKhoa.isEmpty())
     {
@@ -765,9 +779,9 @@ void Cuasochinh::xuLyTimKiemThe()
     );
 }
 
-void Cuasochinh::xuLyTaiLaiDanhSach()
+void CuaSoChinh::xuLyTaiLaiDanhSach()
 {
-    ui->oTimKiemThe->clear();
+    ui->txtCardSearch->clear();
 
     taiDanhSachThe();
 
@@ -776,7 +790,7 @@ void Cuasochinh::xuLyTaiLaiDanhSach()
     );
 }
 
-void Cuasochinh::xuLyLayUidVuaQuet()
+void CuaSoChinh::xuLyLayUidVuaQuet()
 {
     if (uidVuaQuet.isEmpty())
     {
@@ -789,7 +803,7 @@ void Cuasochinh::xuLyLayUidVuaQuet()
         return;
     }
 
-    ui->oNhapUid->setText(uidVuaQuet);
+    ui->txtUid->setText(uidVuaQuet);
 
     ghiNhatKy(
         "Da dua UID vua quet vao o nhap: " +
@@ -797,7 +811,7 @@ void Cuasochinh::xuLyLayUidVuaQuet()
     );
 }
 
-void Cuasochinh::xuLyChonDongTrongBang(
+void CuaSoChinh::xuLyChonDongTrongBang(
     int dong,
     int cot
 )
@@ -820,16 +834,16 @@ void Cuasochinh::xuLyChonDongTrongBang(
     }
 
     QTableWidgetItem *oUid =
-        ui->bangDanhSachThe->item(dong, 0);
+        ui->tableCardList->item(dong, 0);
 
     QTableWidgetItem *oHoTen =
-        ui->bangDanhSachThe->item(dong, 1);
+        ui->tableCardList->item(dong, 1);
 
     QTableWidgetItem *oMaSo =
-        ui->bangDanhSachThe->item(dong, 2);
+        ui->tableCardList->item(dong, 2);
 
     QTableWidgetItem *oVaiTro =
-        ui->bangDanhSachThe->item(dong, 3);
+        ui->tableCardList->item(dong, 3);
 
     if (
         oUid == nullptr ||
@@ -841,40 +855,40 @@ void Cuasochinh::xuLyChonDongTrongBang(
         return;
     }
 
-    ui->oNhapUid->setText(
+    ui->txtUid->setText(
         oUid->text()
     );
 
-    ui->oNhapHoTen->setText(
+    ui->txtFullName->setText(
         oHoTen->text()
     );
 
-    ui->oNhapMaSo->setText(
+    ui->txtId->setText(
         oMaSo->text()
     );
 
     const int viTriVaiTro =
-        ui->hopVaiTro->findText(
+        ui->cbRole->findText(
             oVaiTro->text()
         );
 
     if (viTriVaiTro >= 0)
     {
-        ui->hopVaiTro->setCurrentIndex(
+        ui->cbRole->setCurrentIndex(
             viTriVaiTro
         );
     }
 }
 
-void Cuasochinh::xuLyTimKiemLichSu()
+void CuaSoChinh::xuLyTimKiemLichSu()
 {
     const QString tuKhoa =
-        ui->oTimKiemLichSu
+        ui->txtHistorySearch
             ->text()
             .trimmed();
 
     const QString ketQua =
-        ui->hopLocKetQuaLichSu
+        ui->cbHistoryResult
             ->currentText();
 
     const QList<ThongTinLichSu> danhSach =
@@ -895,11 +909,11 @@ void Cuasochinh::xuLyTimKiemLichSu()
     );
 }
 
-void Cuasochinh::xuLyTaiLaiLichSu()
+void CuaSoChinh::xuLyTaiLaiLichSu()
 {
-    ui->oTimKiemLichSu->clear();
+    ui->txtHistorySearch->clear();
 
-    ui->hopLocKetQuaLichSu
+    ui->cbHistoryResult
         ->setCurrentIndex(0);
 
     taiLichSuRaVao();
@@ -909,9 +923,14 @@ void Cuasochinh::xuLyTaiLaiLichSu()
     );
 }
 
-void Cuasochinh::xuLyXuatCsvLichSu()
+void CuaSoChinh::xuLyXuatCsvLichSu()
 {
-    if (ui->bangLichSuRaVao->rowCount() <= 0)
+    xuatCsvLichSu();
+}
+
+void CuaSoChinh::xuatCsvLichSu()
+{
+    if (ui->tableAccessHistory->rowCount() <= 0)
     {
         QMessageBox::information(
             this,
@@ -996,12 +1015,12 @@ void Cuasochinh::xuLyXuatCsvLichSu()
     // Ghi ten cac cot
     for (
         int cot = 0;
-        cot < ui->bangLichSuRaVao->columnCount();
+        cot < ui->tableAccessHistory->columnCount();
         ++cot
     )
     {
         QTableWidgetItem *tieuDe =
-            ui->bangLichSuRaVao
+            ui->tableAccessHistory
                 ->horizontalHeaderItem(cot);
 
         const QString noiDungTieuDe =
@@ -1015,7 +1034,7 @@ void Cuasochinh::xuLyXuatCsvLichSu()
 
         if (
             cot <
-            ui->bangLichSuRaVao->columnCount() - 1
+            ui->tableAccessHistory->columnCount() - 1
         )
         {
             luongGhi << ",";
@@ -1027,18 +1046,18 @@ void Cuasochinh::xuLyXuatCsvLichSu()
     // Chi xuat cac dong dang hien thi sau khi tim kiem hoac loc
     for (
         int dong = 0;
-        dong < ui->bangLichSuRaVao->rowCount();
+        dong < ui->tableAccessHistory->rowCount();
         ++dong
     )
     {
         for (
             int cot = 0;
-            cot < ui->bangLichSuRaVao->columnCount();
+            cot < ui->tableAccessHistory->columnCount();
             ++cot
         )
         {
             QTableWidgetItem *oDuLieu =
-                ui->bangLichSuRaVao->item(
+                ui->tableAccessHistory->item(
                     dong,
                     cot
                 );
@@ -1054,7 +1073,7 @@ void Cuasochinh::xuLyXuatCsvLichSu()
 
             if (
                 cot <
-                ui->bangLichSuRaVao->columnCount() - 1
+                ui->tableAccessHistory->columnCount() - 1
             )
             {
                 luongGhi << ",";
@@ -1079,7 +1098,7 @@ void Cuasochinh::xuLyXuatCsvLichSu()
     );
 }
 
-void Cuasochinh::xuLyMoQuanLyTaiKhoan()
+void CuaSoChinh::xuLyMoQuanLyTaiKhoan()
 {
     const bool laQuanTriVien =
         quyenNguoiDungHienTai
@@ -1112,7 +1131,7 @@ void Cuasochinh::xuLyMoQuanLyTaiKhoan()
     );
 }
 
-void Cuasochinh::xuLyNutKetNoiBle()
+void CuaSoChinh::xuLyYeuCauKetNoiBle()
 {
     if (ketNoiBle->dangXuLy())
     {
@@ -1125,47 +1144,54 @@ void Cuasochinh::xuLyNutKetNoiBle()
     moHopThoaiChonBle();
 }
 
-void Cuasochinh::moHopThoaiChonBle()
+void CuaSoChinh::moHopThoaiChonBle()
 {
-    QDialog hopThoai(this);
-    hopThoai.setWindowTitle("Chon thiet bi BLE");
-    hopThoai.resize(720, 430);
+    QDialog dlgBleDeviceSelection(this);
+    dlgBleDeviceSelection.setWindowTitle("Chon thiet bi BLE");
+    dlgBleDeviceSelection.resize(720, 430);
 
-    QLabel *huongDan = new QLabel(
+    QLabel *lblBleSelectionInstructions = new QLabel(
         "Dang quet cac thiet bi BLE xung quanh...",
-        &hopThoai
+        &dlgBleDeviceSelection
+    );
+    lblBleSelectionInstructions->setObjectName(
+        "lblBleSelectionInstructions"
     );
 
-    QTableWidget *bang = new QTableWidget(&hopThoai);
-    bang->setColumnCount(4);
-    bang->setHorizontalHeaderLabels(
+    QTableWidget *tableBleDevices = new QTableWidget(&dlgBleDeviceSelection);
+    tableBleDevices->setObjectName("tableBleDevices");
+    tableBleDevices->setColumnCount(4);
+    tableBleDevices->setHorizontalHeaderLabels(
         {"Ten thiet bi", "Dia chi", "RSSI", "Phu hop he thong"}
     );
-    bang->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    bang->setSelectionBehavior(QAbstractItemView::SelectRows);
-    bang->setSelectionMode(QAbstractItemView::SingleSelection);
-    bang->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableBleDevices->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableBleDevices->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableBleDevices->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableBleDevices->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    QPushButton *quetLai = new QPushButton("QUET LAI", &hopThoai);
-    QPushButton *ketNoi = new QPushButton("KET NOI BLE DA CHON", &hopThoai);
-    QPushButton *huy = new QPushButton("HUY", &hopThoai);
-    ketNoi->setEnabled(false);
+    QPushButton *btnRescan = new QPushButton("QUET LAI", &dlgBleDeviceSelection);
+    QPushButton *btnConnectSelected = new QPushButton("KET NOI BLE DA CHON", &dlgBleDeviceSelection);
+    QPushButton *btnCancel = new QPushButton("HUY", &dlgBleDeviceSelection);
+    btnRescan->setObjectName("btnRescan");
+    btnConnectSelected->setObjectName("btnConnectSelected");
+    btnCancel->setObjectName("btnCancel");
+    btnConnectSelected->setEnabled(false);
 
     QHBoxLayout *boCucNut = new QHBoxLayout;
-    boCucNut->addWidget(quetLai);
-    boCucNut->addWidget(ketNoi);
-    boCucNut->addWidget(huy);
+    boCucNut->addWidget(btnRescan);
+    boCucNut->addWidget(btnConnectSelected);
+    boCucNut->addWidget(btnCancel);
 
-    QVBoxLayout *boCuc = new QVBoxLayout(&hopThoai);
-    boCuc->addWidget(huongDan);
-    boCuc->addWidget(bang);
+    QVBoxLayout *boCuc = new QVBoxLayout(&dlgBleDeviceSelection);
+    boCuc->addWidget(lblBleSelectionInstructions);
+    boCuc->addWidget(tableBleDevices);
     boCuc->addLayout(boCucNut);
 
     connect(
         ketNoiBle,
         &KetNoiBle::timThayThietBi,
-        &hopThoai,
-        [bang](
+        &dlgBleDeviceSelection,
+        [tableBleDevices](
             const QString &ten,
             const QString &diaChi,
             int rssi,
@@ -1174,11 +1200,11 @@ void Cuasochinh::moHopThoaiChonBle()
         {
             int dong = -1;
 
-            for (int i = 0; i < bang->rowCount(); ++i)
+            for (int i = 0; i < tableBleDevices->rowCount(); ++i)
             {
                 if (
-                    bang->item(i, 1) != nullptr &&
-                    bang->item(i, 1)->text() == diaChi
+                    tableBleDevices->item(i, 1) != nullptr &&
+                    tableBleDevices->item(i, 1)->text() == diaChi
                 )
                 {
                     dong = i;
@@ -1188,14 +1214,14 @@ void Cuasochinh::moHopThoaiChonBle()
 
             if (dong < 0)
             {
-                dong = bang->rowCount();
-                bang->insertRow(dong);
+                dong = tableBleDevices->rowCount();
+                tableBleDevices->insertRow(dong);
             }
 
-            bang->setItem(dong, 0, new QTableWidgetItem(ten));
-            bang->setItem(dong, 1, new QTableWidgetItem(diaChi));
-            bang->setItem(dong, 2, new QTableWidgetItem(QString::number(rssi) + " dBm"));
-            bang->setItem(
+            tableBleDevices->setItem(dong, 0, new QTableWidgetItem(ten));
+            tableBleDevices->setItem(dong, 1, new QTableWidgetItem(diaChi));
+            tableBleDevices->setItem(dong, 2, new QTableWidgetItem(QString::number(rssi) + " dBm"));
+            tableBleDevices->setItem(
                 dong,
                 3,
                 new QTableWidgetItem(
@@ -1208,11 +1234,11 @@ void Cuasochinh::moHopThoaiChonBle()
     connect(
         ketNoiBle,
         &KetNoiBle::ketThucQuet,
-        &hopThoai,
-        [bang, huongDan]()
+        &dlgBleDeviceSelection,
+        [tableBleDevices, lblBleSelectionInstructions]()
         {
-            huongDan->setText(
-                bang->rowCount() > 0
+            lblBleSelectionInstructions->setText(
+                tableBleDevices->rowCount() > 0
                     ? "Da quet xong. Hay chon HE THONG RA VAO HIEU."
                     : "Khong tim thay thiet bi BLE."
             );
@@ -1220,24 +1246,24 @@ void Cuasochinh::moHopThoaiChonBle()
     );
 
     connect(
-        bang,
+        tableBleDevices,
         &QTableWidget::itemSelectionChanged,
-        &hopThoai,
-        [bang, ketNoi]()
+        &dlgBleDeviceSelection,
+        [tableBleDevices, btnConnectSelected]()
         {
-            ketNoi->setEnabled(bang->currentRow() >= 0);
+            btnConnectSelected->setEnabled(tableBleDevices->currentRow() >= 0);
         }
     );
 
     connect(
-        quetLai,
+        btnRescan,
         &QPushButton::clicked,
-        &hopThoai,
-        [this, bang, huongDan]()
+        &dlgBleDeviceSelection,
+        [this, tableBleDevices, lblBleSelectionInstructions]()
         {
             ketNoiBle->dung();
-            bang->setRowCount(0);
-            huongDan->setText("Dang quet cac thiet bi BLE xung quanh...");
+            tableBleDevices->setRowCount(0);
+            lblBleSelectionInstructions->setText("Dang quet cac thiet bi BLE xung quanh...");
             ketNoiBle->quetDeLuaChon();
         }
     );
@@ -1245,23 +1271,23 @@ void Cuasochinh::moHopThoaiChonBle()
     bool daBatDauKetNoi = false;
 
     connect(
-        ketNoi,
+        btnConnectSelected,
         &QPushButton::clicked,
-        &hopThoai,
-        [this, &hopThoai, bang, &daBatDauKetNoi]()
+        &dlgBleDeviceSelection,
+        [this, &dlgBleDeviceSelection, tableBleDevices, &daBatDauKetNoi]()
         {
-            const int dong = bang->currentRow();
+            const int dong = tableBleDevices->currentRow();
 
             if (
                 dong < 0 ||
-                bang->item(dong, 1) == nullptr ||
+                tableBleDevices->item(dong, 1) == nullptr ||
                 !ketNoiBle->ketNoiTheoDiaChi(
-                    bang->item(dong, 1)->text()
+                    tableBleDevices->item(dong, 1)->text()
                 )
             )
             {
                 QMessageBox::warning(
-                    &hopThoai,
+                    &dlgBleDeviceSelection,
                     "Ket noi BLE",
                     "Khong ket noi duoc thiet bi da chon."
                 );
@@ -1271,13 +1297,13 @@ void Cuasochinh::moHopThoaiChonBle()
             daBatDauKetNoi = true;
             ghiNhatKy(
                 "Dang ket noi BLE toi: " +
-                bang->item(dong, 0)->text()
+                tableBleDevices->item(dong, 0)->text()
             );
-            hopThoai.accept();
+            dlgBleDeviceSelection.accept();
         }
     );
 
-    connect(huy, &QPushButton::clicked, &hopThoai, &QDialog::reject);
+    connect(btnCancel, &QPushButton::clicked, &dlgBleDeviceSelection, &QDialog::reject);
 
     if (!ketNoiBle->quetDeLuaChon())
     {
@@ -1289,7 +1315,7 @@ void Cuasochinh::moHopThoaiChonBle()
         return;
     }
 
-    hopThoai.exec();
+    dlgBleDeviceSelection.exec();
 
     if (!daBatDauKetNoi)
     {
@@ -1299,7 +1325,7 @@ void Cuasochinh::moHopThoaiChonBle()
     capNhatTrangThaiKetNoi();
 }
 
-void Cuasochinh::xuLyBleDaKetNoi()
+void CuaSoChinh::xuLyBleDaKetNoi()
 {
     ghiNhatKy(
         "BLE da ket noi - uu tien BLE lam kenh chinh."
@@ -1312,7 +1338,7 @@ void Cuasochinh::xuLyBleDaKetNoi()
     capNhatTrangThaiKetNoi();
 }
 
-void Cuasochinh::xuLyBleDaNgatKetNoi()
+void CuaSoChinh::xuLyBleDaNgatKetNoi()
 {
     if (ketNoiBle->dangXuLy())
     {
@@ -1330,7 +1356,7 @@ void Cuasochinh::xuLyBleDaNgatKetNoi()
     capNhatTrangThaiKetNoi();
 }
 
-void Cuasochinh::xuLyLoiBle(
+void CuaSoChinh::xuLyLoiBle(
     const QString &noiDungLoi
 )
 {
@@ -1350,7 +1376,7 @@ void Cuasochinh::xuLyLoiBle(
     capNhatTrangThaiKetNoi();
 }
 
-void Cuasochinh::xuLyDuLieuTuThietBi(
+void CuaSoChinh::xuLyDuLieuTuThietBi(
     const QString &topic,
     const QString &payload
 )
@@ -1386,7 +1412,7 @@ void Cuasochinh::xuLyDuLieuTuThietBi(
     }
 }
 
-void Cuasochinh::xuLyUidRfid(
+void CuaSoChinh::xuLyUidRfid(
     const QString &uid
 )
 {
@@ -1404,11 +1430,11 @@ void Cuasochinh::xuLyUidRfid(
         QDateTime::currentDateTime()
             .toString("yyyy-MM-dd HH:mm:ss");
 
-    ui->giaTriUid->setText(
+    ui->lblUidValue->setText(
         uidVuaQuet
     );
 
-    ui->giaTriThoiGian->setText(
+    ui->lblTimeValue->setText(
         thoiGian
     );
 
@@ -1426,11 +1452,11 @@ void Cuasochinh::xuLyUidRfid(
 
     if (theHopLe)
     {
-        ui->giaTriChuThe->setText(
+        ui->lblCardHolderValue->setText(
             thongTinThe.hoTen
         );
 
-        ui->giaTriKetQua->setText(
+        ui->lblResultValue->setText(
             "The hop le"
         );
 
@@ -1457,7 +1483,7 @@ void Cuasochinh::xuLyUidRfid(
 
         if (guiLenhCua("OPEN"))
         {
-            ui->nhanTrangThaiCua->setText(
+            ui->lblDoorStatus->setText(
                 "Dang cho xac nhan mo"
             );
 
@@ -1492,11 +1518,11 @@ void Cuasochinh::xuLyUidRfid(
         return;
     }
 
-    ui->giaTriChuThe->setText(
+    ui->lblCardHolderValue->setText(
         "Khong xac dinh"
     );
 
-    ui->giaTriKetQua->setText(
+    ui->lblResultValue->setText(
         "The khong hop le"
     );
 
@@ -1526,7 +1552,7 @@ void Cuasochinh::xuLyUidRfid(
     );
 }
 
-void Cuasochinh::xuLyTrangThaiCamBien(
+void CuaSoChinh::xuLyTrangThaiCamBien(
     const QString &trangThai
 )
 {
@@ -1539,7 +1565,7 @@ void Cuasochinh::xuLyTrangThaiCamBien(
         duLieu == "PERSON"
     )
     {
-        ui->nhanTrangThaiCamBien->setText(
+        ui->lblSensorStatus->setText(
             "Co nguoi"
         );
 
@@ -1556,7 +1582,7 @@ void Cuasochinh::xuLyTrangThaiCamBien(
         duLieu == "NO_PERSON"
     )
     {
-        ui->nhanTrangThaiCamBien->setText(
+        ui->lblSensorStatus->setText(
             "Khong co nguoi"
         );
 
@@ -1567,7 +1593,7 @@ void Cuasochinh::xuLyTrangThaiCamBien(
         return;
     }
 
-    ui->nhanTrangThaiCamBien->setText(
+    ui->lblSensorStatus->setText(
         duLieu
     );
 
@@ -1576,7 +1602,7 @@ void Cuasochinh::xuLyTrangThaiCamBien(
     );
 }
 
-void Cuasochinh::xuLyTrangThaiHeThong(
+void CuaSoChinh::xuLyTrangThaiHeThong(
     const QString &trangThai
 )
 {
@@ -1586,14 +1612,14 @@ void Cuasochinh::xuLyTrangThaiHeThong(
     );
 }
 
-void Cuasochinh::xuLyTrangThaiCua(
+void CuaSoChinh::xuLyTrangThaiCua(
     const QString &trangThai
 )
 {
     const QString duLieu =
         trangThai.trimmed().toUpper();
 
-    ui->nhanTrangThaiCua->setText(
+    ui->lblDoorStatus->setText(
         chuanHoaTrangThaiCuaHienThi(duLieu)
     );
 
@@ -1630,7 +1656,7 @@ void Cuasochinh::xuLyTrangThaiCua(
     );
 }
 
-void Cuasochinh::xuLyMoCua()
+void CuaSoChinh::xuLyMoCua()
 {
     const QString quyenChuan =
         quyenNguoiDungHienTai
@@ -1672,7 +1698,7 @@ void Cuasochinh::xuLyMoCua()
         return;
     }
 
-    ui->nhanTrangThaiCua->setText(
+    ui->lblDoorStatus->setText(
         "Dang cho xac nhan mo"
     );
 
@@ -1681,7 +1707,7 @@ void Cuasochinh::xuLyMoCua()
     );
 }
 
-void Cuasochinh::xuLyDongCua()
+void CuaSoChinh::xuLyDongCua()
 {
     const QString quyenChuan =
         quyenNguoiDungHienTai
@@ -1723,7 +1749,7 @@ void Cuasochinh::xuLyDongCua()
         return;
     }
 
-    ui->nhanTrangThaiCua->setText(
+    ui->lblDoorStatus->setText(
         "Dang cho xac nhan dong"
     );
 
@@ -1732,7 +1758,7 @@ void Cuasochinh::xuLyDongCua()
     );
 }
 
-bool Cuasochinh::guiDuLieu(
+bool CuaSoChinh::guiDuLieu(
     const QString &topic,
     const QString &payload
 )
@@ -1748,7 +1774,7 @@ bool Cuasochinh::guiDuLieu(
     return false;
 }
 
-void Cuasochinh::capNhatTrangThaiKetNoi()
+void CuaSoChinh::capNhatTrangThaiKetNoi()
 {
     QString trangThaiBle;
 
@@ -1776,13 +1802,13 @@ void Cuasochinh::capNhatTrangThaiKetNoi()
         kenh = "Dang ket noi BLE";
     }
 
-    ui->nhanTrangThaiKetNoi->setText(
+    ui->lblConnectionStatus->setText(
         trangThaiBle +
         "\nKenh hien tai: " +
         kenh
     );
 
-    ui->nutKetNoiBle->setText(
+    ui->btnConnectBle->setText(
         ketNoiBle->daKetNoi()
             ? "NGAT KET NOI BLE"
             : (
@@ -1794,7 +1820,7 @@ void Cuasochinh::capNhatTrangThaiKetNoi()
 
 }
 
-bool Cuasochinh::guiLenhCua(
+bool CuaSoChinh::guiLenhCua(
     const QString &lenh
 )
 {
@@ -1815,7 +1841,7 @@ bool Cuasochinh::guiLenhCua(
     );
 }
 
-bool Cuasochinh::guiKetQuaThe(
+bool CuaSoChinh::guiKetQuaThe(
     const QString &ketQua
 )
 {
@@ -1836,7 +1862,7 @@ bool Cuasochinh::guiKetQuaThe(
     );
 }
 
-bool Cuasochinh::guiThoiGianDongCua(
+bool CuaSoChinh::guiThoiGianDongCua(
     int soGiay
 )
 {
@@ -1854,7 +1880,7 @@ bool Cuasochinh::guiThoiGianDongCua(
     );
 }
 
-void Cuasochinh::taiDanhSachThe()
+void CuaSoChinh::taiDanhSachThe()
 {
     const QList<ThongTinThe> danhSach =
         CoSoDuLieu::layDanhSachThe();
@@ -1862,11 +1888,11 @@ void Cuasochinh::taiDanhSachThe()
     hienThiDanhSachThe(danhSach);
 }
 
-void Cuasochinh::hienThiDanhSachThe(
+void CuaSoChinh::hienThiDanhSachThe(
     const QList<ThongTinThe> &danhSach
 )
 {
-    ui->bangDanhSachThe->setRowCount(
+    ui->tableCardList->setRowCount(
         danhSach.size()
     );
 
@@ -1879,31 +1905,31 @@ void Cuasochinh::hienThiDanhSachThe(
         const ThongTinThe &the =
             danhSach.at(dong);
 
-        ui->bangDanhSachThe->setItem(
+        ui->tableCardList->setItem(
             dong,
             0,
             new QTableWidgetItem(the.uid)
         );
 
-        ui->bangDanhSachThe->setItem(
+        ui->tableCardList->setItem(
             dong,
             1,
             new QTableWidgetItem(the.hoTen)
         );
 
-        ui->bangDanhSachThe->setItem(
+        ui->tableCardList->setItem(
             dong,
             2,
             new QTableWidgetItem(the.maSo)
         );
 
-        ui->bangDanhSachThe->setItem(
+        ui->tableCardList->setItem(
             dong,
             3,
             new QTableWidgetItem(the.vaiTro)
         );
 
-        ui->bangDanhSachThe->setItem(
+        ui->tableCardList->setItem(
             dong,
             4,
             new QTableWidgetItem(
@@ -1913,7 +1939,7 @@ void Cuasochinh::hienThiDanhSachThe(
     }
 }
 
-void Cuasochinh::taiLichSuRaVao()
+void CuaSoChinh::taiLichSuRaVao()
 {
     const QList<ThongTinLichSu> danhSach =
         CoSoDuLieu::layLichSuRaVao();
@@ -1921,11 +1947,11 @@ void Cuasochinh::taiLichSuRaVao()
     hienThiLichSuRaVao(danhSach);
 }
 
-void Cuasochinh::hienThiLichSuRaVao(
+void CuaSoChinh::hienThiLichSuRaVao(
     const QList<ThongTinLichSu> &danhSach
 )
 {
-    ui->bangLichSuRaVao->setRowCount(
+    ui->tableAccessHistory->setRowCount(
         danhSach.size()
     );
 
@@ -1938,7 +1964,7 @@ void Cuasochinh::hienThiLichSuRaVao(
         const ThongTinLichSu &lichSu =
             danhSach.at(dong);
 
-        ui->bangLichSuRaVao->setItem(
+        ui->tableAccessHistory->setItem(
             dong,
             0,
             new QTableWidgetItem(
@@ -1946,7 +1972,7 @@ void Cuasochinh::hienThiLichSuRaVao(
             )
         );
 
-        ui->bangLichSuRaVao->setItem(
+        ui->tableAccessHistory->setItem(
             dong,
             1,
             new QTableWidgetItem(
@@ -1954,7 +1980,7 @@ void Cuasochinh::hienThiLichSuRaVao(
             )
         );
 
-        ui->bangLichSuRaVao->setItem(
+        ui->tableAccessHistory->setItem(
             dong,
             2,
             new QTableWidgetItem(
@@ -1962,7 +1988,7 @@ void Cuasochinh::hienThiLichSuRaVao(
             )
         );
 
-        ui->bangLichSuRaVao->setItem(
+        ui->tableAccessHistory->setItem(
             dong,
             3,
             new QTableWidgetItem(
@@ -1970,7 +1996,7 @@ void Cuasochinh::hienThiLichSuRaVao(
             )
         );
 
-        ui->bangLichSuRaVao->setItem(
+        ui->tableAccessHistory->setItem(
             dong,
             4,
             new QTableWidgetItem(
@@ -1980,7 +2006,7 @@ void Cuasochinh::hienThiLichSuRaVao(
             )
         );
 
-        ui->bangLichSuRaVao->setItem(
+        ui->tableAccessHistory->setItem(
             dong,
             5,
             new QTableWidgetItem(
@@ -1992,7 +2018,7 @@ void Cuasochinh::hienThiLichSuRaVao(
     }
 }
 
-int Cuasochinh::luuLichSuRaVao(
+int CuaSoChinh::luuLichSuRaVao(
     const QString &uid,
     const QString &hoTen,
     const QString &maSo,
@@ -2033,7 +2059,7 @@ int Cuasochinh::luuLichSuRaVao(
     return idLichSuMoi;
 }
 
-bool Cuasochinh::kiemTraThongTinNhap()
+bool CuaSoChinh::kiemTraThongTinNhap()
 {
     const QString quyenChuan =
         quyenNguoiDungHienTai
@@ -2052,13 +2078,13 @@ bool Cuasochinh::kiemTraThongTinNhap()
     }
 
     const QString uid =
-        ui->oNhapUid->text().trimmed();
+        ui->txtUid->text().trimmed();
 
     const QString hoTen =
-        ui->oNhapHoTen->text().trimmed();
+        ui->txtFullName->text().trimmed();
 
     const QString maSo =
-        ui->oNhapMaSo->text().trimmed();
+        ui->txtId->text().trimmed();
 
     if (uid.isEmpty())
     {
@@ -2068,7 +2094,7 @@ bool Cuasochinh::kiemTraThongTinNhap()
             "Chua nhap UID the."
         );
 
-        ui->oNhapUid->setFocus();
+        ui->txtUid->setFocus();
         return false;
     }
 
@@ -2080,7 +2106,7 @@ bool Cuasochinh::kiemTraThongTinNhap()
             "Chua nhap ho va ten."
         );
 
-        ui->oNhapHoTen->setFocus();
+        ui->txtFullName->setFocus();
         return false;
     }
 
@@ -2092,27 +2118,27 @@ bool Cuasochinh::kiemTraThongTinNhap()
             "Chua nhap ma so."
         );
 
-        ui->oNhapMaSo->setFocus();
+        ui->txtId->setFocus();
         return false;
     }
 
     return true;
 }
 
-void Cuasochinh::xoaNoiDungNhap()
+void CuaSoChinh::xoaNoiDungNhap()
 {
-    ui->oNhapUid->clear();
-    ui->oNhapHoTen->clear();
-    ui->oNhapMaSo->clear();
-    ui->hopVaiTro->setCurrentIndex(0);
+    ui->txtUid->clear();
+    ui->txtFullName->clear();
+    ui->txtId->clear();
+    ui->cbRole->setCurrentIndex(0);
 
-    ui->bangDanhSachThe
+    ui->tableCardList
         ->clearSelection();
 
-    ui->oNhapUid->setFocus();
+    ui->txtUid->setFocus();
 }
 
-void Cuasochinh::ghiNhatKy(
+void CuaSoChinh::ghiNhatKy(
     const QString &noiDung
 )
 {
@@ -2120,7 +2146,7 @@ void Cuasochinh::ghiNhatKy(
         QDateTime::currentDateTime()
             .toString("HH:mm:ss");
 
-    ui->oNhatKy->appendPlainText(
+    ui->txtLog->appendPlainText(
         "[" +
         thoiGian +
         "] " +

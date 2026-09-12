@@ -7,28 +7,30 @@
 #include <QMainWindow>
 #include <QString>
 
+#include <memory>
+
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
-class Cuasochinh;
+class CuaSoChinh;
 }
 QT_END_NAMESPACE
 
 class KetNoiBle;
 
-class Cuasochinh : public QMainWindow
+class CuaSoChinh : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Cuasochinh(
+    explicit CuaSoChinh(
         const QString &tenDangNhap,
         const QString &hoTenNguoiDung,
         const QString &quyenNguoiDung,
         QWidget *cha = nullptr
     );
 
-    ~Cuasochinh();
+    ~CuaSoChinh();
 
 signals:
     // Bao cho main.cpp biet nguoi dung muon dang xuat
@@ -55,7 +57,7 @@ private slots:
     // Mo cua so quan ly tai khoan
     void xuLyMoQuanLyTaiKhoan();
 
-    void xuLyNutKetNoiBle();
+    void xuLyYeuCauKetNoiBle();
 
     void xuLyBleDaKetNoi();
     void xuLyBleDaNgatKetNoi();
@@ -67,17 +69,22 @@ private slots:
         const QString &payload
     );
 
-    // Xu ly nghiep vu tu BLE
-    void xuLyUidRfid(const QString &uid);
-    void xuLyTrangThaiCamBien(const QString &trangThai);
-    void xuLyTrangThaiHeThong(const QString &trangThai);
-    void xuLyTrangThaiCua(const QString &trangThai);
-
     // Gui lenh dieu khien cua qua kenh dang hoat dong
     void xuLyMoCua();
     void xuLyDongCua();
 
 private:
+    void themTheTuGiaoDien();
+    void capNhatTheTuGiaoDien();
+    void xoaTheTuGiaoDien();
+    void xuatCsvLichSu();
+
+    // Xu ly nghiep vu sau khi slot BLE da phan luong frame.
+    void xuLyUidRfid(const QString &uid);
+    void xuLyTrangThaiCamBien(const QString &trangThai);
+    void xuLyTrangThaiHeThong(const QString &trangThai);
+    void xuLyTrangThaiCua(const QString &trangThai);
+
     // Ap dung quyen cua tai khoan dang nhap
     void apDungPhanQuyen();
 
@@ -127,7 +134,7 @@ private:
     void capNhatTrangThaiKetNoi();
     void moHopThoaiChonBle();
 
-    Ui::Cuasochinh *ui;
+    std::unique_ptr<Ui::CuaSoChinh> ui;
 
     // Doi tuong BLE Central/GATT Client
     KetNoiBle *ketNoiBle;

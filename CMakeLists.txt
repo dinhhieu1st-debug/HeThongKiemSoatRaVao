@@ -34,6 +34,9 @@ find_package(
 set(NGUON_CHUONG_TRINH
     src/main.cpp
 
+    src/bandichtiengvietqt.cpp
+    include/bandichtiengvietqt.h
+
     src/cuasochinh.cpp
     include/cuasochinh.h
     ui/cuasochinh.ui

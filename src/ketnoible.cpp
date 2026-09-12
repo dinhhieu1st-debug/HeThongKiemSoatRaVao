@@ -56,8 +56,8 @@ KetNoiBle::KetNoiBle(QObject *cha)
       boQuet(nullptr),
       controller(nullptr),
       dichVu(nullptr),
-      boHenKetNoiSauQuet(new QTimer(this)),
-      boHenThuLai(new QTimer(this)),
+      timerConnectAfterScan(new QTimer(this)),
+      timerReconnect(new QTimer(this)),
       dangHoatDong(false),
       dangQuetLuaChon(false),
       dangChoQuetDung(false),
@@ -68,25 +68,25 @@ KetNoiBle::KetNoiBle(QObject *cha)
 {
     taoLaiBoQuet();
 
-    boHenKetNoiSauQuet->setSingleShot(true);
-    boHenKetNoiSauQuet->setInterval(
+    timerConnectAfterScan->setSingleShot(true);
+    timerConnectAfterScan->setInterval(
         THOI_GIAN_ON_DINH_SAU_QUET_MS
     );
 
-    boHenThuLai->setSingleShot(true);
-    boHenThuLai->setInterval(
+    timerReconnect->setSingleShot(true);
+    timerReconnect->setInterval(
         THOI_GIAN_THU_LAI_MS
     );
 
     connect(
-        boHenKetNoiSauQuet,
+        timerConnectAfterScan,
         &QTimer::timeout,
         this,
         &KetNoiBle::ketNoiSauKhiQuetDung
     );
 
     connect(
-        boHenThuLai,
+        timerReconnect,
         &QTimer::timeout,
         this,
         &KetNoiBle::batDauQuetKetNoiLai
@@ -177,8 +177,8 @@ bool KetNoiBle::quetDeLuaChon()
         return false;
     }
 
-    boHenThuLai->stop();
-    boHenKetNoiSauQuet->stop();
+    timerReconnect->stop();
+    timerConnectAfterScan->stop();
 
     dangHoatDong = true;
     dangQuetLuaChon = true;
@@ -240,8 +240,8 @@ void KetNoiBle::dung()
     daBaoLoiLanNay = false;
     soLanThuKetNoi = 0;
 
-    boHenThuLai->stop();
-    boHenKetNoiSauQuet->stop();
+    timerReconnect->stop();
+    timerConnectAfterScan->stop();
 
     if (boQuet->isActive())
     {
@@ -428,14 +428,14 @@ void KetNoiBle::xuLyQuetDaDung()
     {
         dangChoQuetDung = false;
 
-        if (!boHenKetNoiSauQuet->isActive())
+        if (!timerConnectAfterScan->isActive())
         {
-            boHenKetNoiSauQuet->start();
+            timerConnectAfterScan->start();
         }
         return;
     }
 
-    if (boHenKetNoiSauQuet->isActive())
+    if (timerConnectAfterScan->isActive())
     {
         return;
     }
@@ -475,7 +475,7 @@ void KetNoiBle::henKetNoiThietBi(
 {
     if (
         controller != nullptr ||
-        boHenKetNoiSauQuet->isActive()
+        timerConnectAfterScan->isActive()
     )
     {
         return;
@@ -490,7 +490,7 @@ void KetNoiBle::henKetNoiThietBi(
         return;
     }
 
-    boHenKetNoiSauQuet->start();
+    timerConnectAfterScan->start();
 }
 
 void KetNoiBle::ketNoiSauKhiQuetDung()
@@ -586,7 +586,7 @@ void KetNoiBle::xuLyControllerDaNgat()
     if (daTungKetNoiOnDinh)
     {
         soLanThuKetNoi = 0;
-        boHenThuLai->setInterval(
+        timerReconnect->setInterval(
             THOI_GIAN_THU_LAI_SAU_NGAT_MS
         );
     }
@@ -843,7 +843,7 @@ void KetNoiBle::datSanSang(bool giaTri)
     if (sanSang)
     {
         daBaoLoiLanNay = false;
-        boHenThuLai->stop();
+        timerReconnect->stop();
         emit daKetNoiBle();
     }
     else
@@ -878,10 +878,10 @@ void KetNoiBle::henThuLai()
         dangHoatDong &&
         !dangQuetLuaChon &&
         !diaChiDaChon.isEmpty() &&
-        !boHenThuLai->isActive()
+        !timerReconnect->isActive()
     )
     {
-        boHenThuLai->start();
+        timerReconnect->start();
     }
 }
 
@@ -893,8 +893,8 @@ void KetNoiBle::khoiPhucAdapterBluetooth()
     }
 
     dangKhoiPhucAdapter = true;
-    boHenThuLai->stop();
-    boHenKetNoiSauQuet->stop();
+    timerReconnect->stop();
+    timerConnectAfterScan->stop();
 
     emit coLoi(
         "Da co 3 lan bat tay HCI chua thanh cong. "
@@ -940,9 +940,9 @@ void KetNoiBle::khoiPhucAdapterBluetooth()
                                     taoLaiBoQuet();
 
                                     // Power-cycle lam BlueZ xoa Device1.
-                                    // Quet bang tien trinh rieng de tao lai
+                                    // Quet tableBleDevices tien trinh rieng de tao lai
                                     // Device1, sau do Qt se ket noi truc tiep
-                                    // bang thong tin da chon, khong scan lai.
+                                    // tableBleDevices thong tin da chon, khong scan lai.
                                     QProcess *quetBluez =
                                         new QProcess(this);
 
@@ -970,7 +970,7 @@ void KetNoiBle::khoiPhucAdapterBluetooth()
 
                                             if (dangHoatDong)
                                             {
-                                                boHenThuLai->setInterval(
+                                                timerReconnect->setInterval(
                                                     THOI_GIAN_THU_LAI_MS
                                                 );
                                                 henThuLai();
@@ -1022,13 +1022,13 @@ void KetNoiBle::batDauQuetKetNoiLai()
     }
 
     daBaoLoiLanNay = false;
-    boHenThuLai->setInterval(THOI_GIAN_THU_LAI_MS);
+    timerReconnect->setInterval(THOI_GIAN_THU_LAI_MS);
 
     // Khong scan lai truoc moi lan connect. Cypress tren Pi de gap HCI
     // 0x3e khi chuyen lien tuc tu discovery sang LE connection. Thong tin
     // dia chi public cua ESP32 da duoc luu tu lan nguoi dung chon.
     thietBiChoKetNoi = thietBiDaChon;
-    boHenKetNoiSauQuet->start();
+    timerConnectAfterScan->start();
 }
 
 void KetNoiBle::xuLyFrame(const QByteArray &frame)

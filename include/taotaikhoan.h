@@ -48,6 +48,11 @@ private slots:
     void huyTaoTaiKhoan();
 
 private:
+    void taoTaiKhoanTuGiaoDien();
+    void capNhatTaiKhoanTuGiaoDien();
+    void doiMatKhauTuGiaoDien();
+    void xoaTaiKhoanTuGiaoDien();
+
     // Tai danh sach tai khoan tu SQLite
     void taiDanhSachTaiKhoan();
 
@@ -72,27 +77,27 @@ private:
     QString tenDangNhapHienTai;
 
     // Cac o nhap thong tin
-    QLineEdit *oTenDangNhap;
-    QLineEdit *oMatKhau;
-    QLineEdit *oNhapLaiMatKhau;
-    QLineEdit *oHoTen;
+    QLineEdit *txtUsername;
+    QLineEdit *txtPassword;
+    QLineEdit *txtConfirmPassword;
+    QLineEdit *txtFullName;
 
     // Hop chon quyen
-    QComboBox *hopQuyenTaiKhoan;
+    QComboBox *cbAccountRole;
 
     // Bang danh sach tai khoan
-    QTableWidget *bangDanhSachTaiKhoan;
+    QTableWidget *tableAccountList;
 
     // Cac nut chuc nang
-    QPushButton *nutTaoTaiKhoan;
-    QPushButton *nutCapNhatTaiKhoan;
-    QPushButton *nutDoiMatKhau;
-    QPushButton *nutXoaTaiKhoan;
-    QPushButton *nutTaiLaiDanhSach;
-    QPushButton *nutHuy;
+    QPushButton *btnCreateAccount;
+    QPushButton *btnUpdateAccount;
+    QPushButton *btnChangePassword;
+    QPushButton *btnDeleteAccount;
+    QPushButton *btnReloadList;
+    QPushButton *btnCancel;
 
     // Nhan hien thi thong bao
-    QLabel *nhanThongBao;
+    QLabel *lblNotification;
 };
 
 #endif

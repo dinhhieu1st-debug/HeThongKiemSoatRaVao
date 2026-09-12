@@ -1,9 +1,11 @@
 #ifndef KETNOIBLE_H
 #define KETNOIBLE_H
 
+#include <QByteArray>
 #include <QBluetoothAddress>
 #include <QBluetoothDeviceInfo>
 #include <QLowEnergyCharacteristic>
+#include <QLowEnergyDescriptor>
 #include <QObject>
 #include <QString>
 
@@ -94,8 +96,8 @@ private:
     QBluetoothDeviceDiscoveryAgent *boQuet;
     QLowEnergyController *controller;
     QLowEnergyService *dichVu;
-    QTimer *boHenKetNoiSauQuet;
-    QTimer *boHenThuLai;
+    QTimer *timerConnectAfterScan;
+    QTimer *timerReconnect;
 
     QList<QBluetoothDeviceInfo> danhSachThietBi;
     QBluetoothDeviceInfo thietBiDaChon;

@@ -24,15 +24,17 @@ private slots:
     void xuLyHuy();
 
 private:
+    void luuCauHinhTuGiaoDien();
+
     // Doc cau hinh hien tai va dua len giao dien
     void taiCauHinhHienTai();
 
-    QSpinBox *oThoiGianDongCua;
+    QSpinBox *spnDoorCloseTime;
 
-    QPushButton *nutLuu;
-    QPushButton *nutHuy;
+    QPushButton *btnSave;
+    QPushButton *btnCancel;
 
-    QLabel *nhanThongBao;
+    QLabel *lblNotification;
 };
 
 #endif

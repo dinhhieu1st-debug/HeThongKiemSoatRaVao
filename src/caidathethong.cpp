@@ -13,10 +13,10 @@ CaiDatHeThong::CaiDatHeThong(
     QWidget *cha
 )
     : QDialog(cha),
-      oThoiGianDongCua(nullptr),
-      nutLuu(nullptr),
-      nutHuy(nullptr),
-      nhanThongBao(nullptr)
+      spnDoorCloseTime(nullptr),
+      btnSave(nullptr),
+      btnCancel(nullptr),
+      lblNotification(nullptr)
 {
     setWindowTitle(
         "Cai dat he thong"
@@ -27,71 +27,77 @@ CaiDatHeThong::CaiDatHeThong(
         260
     );
 
-    QLabel *nhanTieuDe =
+    QLabel *lblTitle =
         new QLabel(
             "CAI DAT HE THONG",
             this
         );
 
-    nhanTieuDe->setAlignment(
+    lblTitle->setAlignment(
         Qt::AlignCenter
     );
 
     QFont phongChuTieuDe =
-        nhanTieuDe->font();
+        lblTitle->font();
 
     phongChuTieuDe.setPointSize(18);
     phongChuTieuDe.setBold(true);
 
-    nhanTieuDe->setFont(
+    lblTitle->setFont(
         phongChuTieuDe
     );
 
     // Tao cac o nhap cau hinh
-    oThoiGianDongCua =
+    spnDoorCloseTime =
         new QSpinBox(this);
 
-    oThoiGianDongCua->setRange(
+    spnDoorCloseTime->setObjectName("spnDoorCloseTime");
+
+    spnDoorCloseTime->setRange(
         1,
         300
     );
 
-    oThoiGianDongCua->setSuffix(
+    spnDoorCloseTime->setSuffix(
         " giay"
     );
 
-    oThoiGianDongCua->setValue(
+    spnDoorCloseTime->setValue(
         15
     );
 
     // Tao cac nut
-    nutLuu =
+    btnSave =
         new QPushButton(
             "LUU CAU HINH",
             this
         );
 
-    nutHuy =
+    btnCancel =
         new QPushButton(
             "HUY",
             this
         );
 
-    nutLuu->setMinimumHeight(40);
-    nutHuy->setMinimumHeight(40);
+    btnSave->setMinimumHeight(40);
+    btnCancel->setMinimumHeight(40);
+    btnSave->setObjectName("btnSave");
+    btnCancel->setObjectName("btnCancel");
 
     // Tao nhan thong bao
-    nhanThongBao =
+    lblNotification =
         new QLabel(
             "Thay doi se co hieu luc sau khi khoi dong lai chuong trinh",
             this
         );
 
-    nhanThongBao->setAlignment(
+    lblNotification->setAlignment(
         Qt::AlignCenter
     );
 
-    nhanThongBao->setWordWrap(true);
+    lblNotification->setWordWrap(true);
+    lblTitle->setObjectName("lblTitle");
+    lblNotification->setObjectName("lblNotification");
 
     // Bo cuc nhap
     QFormLayout *boCucNhap =
@@ -99,7 +105,7 @@ CaiDatHeThong::CaiDatHeThong(
 
     boCucNhap->addRow(
         "Thoi gian tu dong dong cua:",
-        oThoiGianDongCua
+        spnDoorCloseTime
     );
 
     // Bo cuc nut
@@ -107,11 +113,11 @@ CaiDatHeThong::CaiDatHeThong(
         new QHBoxLayout;
 
     boCucNut->addWidget(
-        nutLuu
+        btnSave
     );
 
     boCucNut->addWidget(
-        nutHuy
+        btnCancel
     );
 
     // Bo cuc chinh
@@ -128,7 +134,7 @@ CaiDatHeThong::CaiDatHeThong(
     boCucChinh->setSpacing(18);
 
     boCucChinh->addWidget(
-        nhanTieuDe
+        lblTitle
     );
 
     boCucChinh->addLayout(
@@ -140,19 +146,19 @@ CaiDatHeThong::CaiDatHeThong(
     );
 
     boCucChinh->addWidget(
-        nhanThongBao
+        lblNotification
     );
 
     // Ket noi cac nut
     connect(
-        nutLuu,
+        btnSave,
         &QPushButton::clicked,
         this,
         &CaiDatHeThong::xuLyLuuCauHinh
     );
 
     connect(
-        nutHuy,
+        btnCancel,
         &QPushButton::clicked,
         this,
         &CaiDatHeThong::xuLyHuy
@@ -167,17 +173,22 @@ void CaiDatHeThong::taiCauHinhHienTai()
     const CauHinhHeThong cauHinh =
         QuanLyCauHinh::docCauHinh();
 
-    oThoiGianDongCua->setValue(
+    spnDoorCloseTime->setValue(
         cauHinh.thoiGianDongCuaGiay
     );
 }
 
 void CaiDatHeThong::xuLyLuuCauHinh()
 {
+    luuCauHinhTuGiaoDien();
+}
+
+void CaiDatHeThong::luuCauHinhTuGiaoDien()
+{
     CauHinhHeThong cauHinh;
 
     cauHinh.thoiGianDongCuaGiay =
-        oThoiGianDongCua->value();
+        spnDoorCloseTime->value();
 
     const bool thanhCong =
         QuanLyCauHinh::luuCauHinh(

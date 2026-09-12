@@ -9,85 +9,92 @@
 
 DangNhap::DangNhap(QWidget *cha)
     : QDialog(cha),
-      oTenDangNhap(nullptr),
-      oMatKhau(nullptr),
-      nutDangNhap(nullptr),
-      nutTaoTaiKhoan(nullptr),
-      nhanThongBao(nullptr)
+      txtUsername(nullptr),
+      txtPassword(nullptr),
+      btnLogin(nullptr),
+      btnCreateAccount(nullptr),
+      lblNotification(nullptr)
 {
     // Cau hinh cua so dang nhap
     setWindowTitle("Dang nhap he thong");
     setFixedSize(420, 250);
 
     // Tao tieu de
-    QLabel *nhanTieuDe =
+    QLabel *lblTitle =
         new QLabel(
             "DANG NHAP HE THONG",
             this
         );
 
-    nhanTieuDe->setAlignment(
+    lblTitle->setAlignment(
         Qt::AlignCenter
     );
 
     QFont phongChuTieuDe =
-        nhanTieuDe->font();
+        lblTitle->font();
 
     phongChuTieuDe.setPointSize(18);
     phongChuTieuDe.setBold(true);
 
-    nhanTieuDe->setFont(
+    lblTitle->setFont(
         phongChuTieuDe
     );
 
     // Tao cac o nhap
-    oTenDangNhap =
+    txtUsername =
         new QLineEdit(this);
 
-    oMatKhau =
+    txtPassword =
         new QLineEdit(this);
 
-    oTenDangNhap->setPlaceholderText(
+    txtUsername->setObjectName("txtUsername");
+    txtPassword->setObjectName("txtPassword");
+
+    txtUsername->setPlaceholderText(
         "Nhap ten dang nhap"
     );
 
-    oMatKhau->setPlaceholderText(
+    txtPassword->setPlaceholderText(
         "Nhap mat khau"
     );
 
-    oMatKhau->setEchoMode(
+    txtPassword->setEchoMode(
         QLineEdit::Password
     );
 
     // Tao nut dang nhap
-    nutDangNhap =
+    btnLogin =
         new QPushButton(
             "DANG NHAP",
             this
         );
 
-    nutDangNhap->setMinimumHeight(40);
+    btnLogin->setMinimumHeight(40);
+    btnLogin->setObjectName("btnLogin");
 
     // Van khoi tao de phu hop voi khai bao trong header
     // Nhung khong hien nut tao tai khoan truoc dang nhap
-    nutTaoTaiKhoan =
+    btnCreateAccount =
         new QPushButton(
             "TAO TAI KHOAN",
             this
         );
 
-    nutTaoTaiKhoan->setVisible(false);
+    btnCreateAccount->setVisible(false);
+    btnCreateAccount->setObjectName("btnCreateAccount");
 
     // Tao nhan thong bao
-    nhanThongBao =
+    lblNotification =
         new QLabel(
             "Vui long nhap tai khoan va mat khau",
             this
         );
 
-    nhanThongBao->setAlignment(
+    lblNotification->setAlignment(
         Qt::AlignCenter
     );
+    lblTitle->setObjectName("lblTitle");
+    lblNotification->setObjectName("lblNotification");
 
     // Tao bo cuc nhap thong tin
     QFormLayout *boCucNhap =
@@ -95,12 +102,12 @@ DangNhap::DangNhap(QWidget *cha)
 
     boCucNhap->addRow(
         "Ten dang nhap:",
-        oTenDangNhap
+        txtUsername
     );
 
     boCucNhap->addRow(
         "Mat khau:",
-        oMatKhau
+        txtPassword
     );
 
     // Tao bo cuc chinh
@@ -117,7 +124,7 @@ DangNhap::DangNhap(QWidget *cha)
     boCucChinh->setSpacing(15);
 
     boCucChinh->addWidget(
-        nhanTieuDe
+        lblTitle
     );
 
     boCucChinh->addLayout(
@@ -125,16 +132,16 @@ DangNhap::DangNhap(QWidget *cha)
     );
 
     boCucChinh->addWidget(
-        nutDangNhap
+        btnLogin
     );
 
     boCucChinh->addWidget(
-        nhanThongBao
+        lblNotification
     );
 
     // Ket noi nut dang nhap
     connect(
-        nutDangNhap,
+        btnLogin,
         &QPushButton::clicked,
         this,
         &DangNhap::xuLyDangNhap
@@ -142,13 +149,13 @@ DangNhap::DangNhap(QWidget *cha)
 
     // Nhan Enter de dang nhap
     connect(
-        oMatKhau,
+        txtPassword,
         &QLineEdit::returnPressed,
         this,
         &DangNhap::xuLyDangNhap
     );
 
-    oTenDangNhap->setFocus();
+    txtUsername->setFocus();
 }
 
 QString DangNhap::layTenDangNhap() const
@@ -168,18 +175,23 @@ QString DangNhap::layQuyenNguoiDung() const
 
 void DangNhap::xuLyDangNhap()
 {
+    dangNhapNguoiDung();
+}
+
+void DangNhap::dangNhapNguoiDung()
+{
     const QString tenDangNhap =
-        oTenDangNhap->text().trimmed();
+        txtUsername->text().trimmed();
 
     const QString matKhau =
-        oMatKhau->text();
+        txtPassword->text();
 
     if (
         tenDangNhap.isEmpty() ||
         matKhau.isEmpty()
     )
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Chua nhap day du thong tin"
         );
 
@@ -206,7 +218,7 @@ void DangNhap::xuLyDangNhap()
         quyenNguoiDung =
             thongTinTaiKhoan.quyen;
 
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Dang nhap thanh cong"
         );
 
@@ -218,18 +230,18 @@ void DangNhap::xuLyDangNhap()
     hoTenNguoiDung.clear();
     quyenNguoiDung.clear();
 
-    nhanThongBao->setText(
+    lblNotification->setText(
         "Sai ten dang nhap hoac mat khau"
     );
 
-    oMatKhau->clear();
-    oMatKhau->setFocus();
+    txtPassword->clear();
+    txtPassword->setFocus();
 }
 
 void DangNhap::moTaoTaiKhoan()
 {
     // Khong cho tao tai khoan truoc khi dang nhap
-    nhanThongBao->setText(
+    lblNotification->setText(
         "Chi quan tri vien duoc quan ly tai khoan"
     );
 }

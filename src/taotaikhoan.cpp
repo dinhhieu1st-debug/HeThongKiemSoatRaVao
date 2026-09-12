@@ -22,19 +22,19 @@ TaoTaiKhoan::TaoTaiKhoan(
       tenDangNhapHienTai(
           tenDangNhapDangSuDung
       ),
-      oTenDangNhap(nullptr),
-      oMatKhau(nullptr),
-      oNhapLaiMatKhau(nullptr),
-      oHoTen(nullptr),
-      hopQuyenTaiKhoan(nullptr),
-      bangDanhSachTaiKhoan(nullptr),
-      nutTaoTaiKhoan(nullptr),
-      nutCapNhatTaiKhoan(nullptr),
-      nutDoiMatKhau(nullptr),
-      nutXoaTaiKhoan(nullptr),
-      nutTaiLaiDanhSach(nullptr),
-      nutHuy(nullptr),
-      nhanThongBao(nullptr)
+      txtUsername(nullptr),
+      txtPassword(nullptr),
+      txtConfirmPassword(nullptr),
+      txtFullName(nullptr),
+      cbAccountRole(nullptr),
+      tableAccountList(nullptr),
+      btnCreateAccount(nullptr),
+      btnUpdateAccount(nullptr),
+      btnChangePassword(nullptr),
+      btnDeleteAccount(nullptr),
+      btnReloadList(nullptr),
+      btnCancel(nullptr),
+      lblNotification(nullptr)
 {
     // Cau hinh cua so quan ly tai khoan
     setWindowTitle(
@@ -47,82 +47,91 @@ TaoTaiKhoan::TaoTaiKhoan(
     );
 
     // Tao tieu de
-    QLabel *nhanTieuDe =
+    QLabel *lblTitle =
         new QLabel(
             "QUAN LY TAI KHOAN",
             this
         );
 
-    nhanTieuDe->setAlignment(
+    lblTitle->setAlignment(
         Qt::AlignCenter
     );
 
     QFont phongChuTieuDe =
-        nhanTieuDe->font();
+        lblTitle->font();
 
     phongChuTieuDe.setPointSize(18);
     phongChuTieuDe.setBold(true);
 
-    nhanTieuDe->setFont(
+    lblTitle->setFont(
         phongChuTieuDe
     );
 
     // Tao cac o nhap
-    oTenDangNhap =
+    txtUsername =
         new QLineEdit(this);
 
-    oMatKhau =
+    txtPassword =
         new QLineEdit(this);
 
-    oNhapLaiMatKhau =
+    txtConfirmPassword =
         new QLineEdit(this);
 
-    oHoTen =
+    txtFullName =
         new QLineEdit(this);
 
-    oTenDangNhap->setPlaceholderText(
+    txtUsername->setObjectName("txtUsername");
+    txtPassword->setObjectName("txtPassword");
+    txtConfirmPassword->setObjectName("txtConfirmPassword");
+    txtFullName->setObjectName("txtFullName");
+
+    txtUsername->setPlaceholderText(
         "Nhap ten dang nhap"
     );
 
-    oMatKhau->setPlaceholderText(
+    txtPassword->setPlaceholderText(
         "Nhap mat khau moi"
     );
 
-    oNhapLaiMatKhau->setPlaceholderText(
+    txtConfirmPassword->setPlaceholderText(
         "Nhap lai mat khau"
     );
 
-    oHoTen->setPlaceholderText(
+    txtFullName->setPlaceholderText(
         "Nhap ho va ten"
     );
 
-    oMatKhau->setEchoMode(
+    txtPassword->setEchoMode(
         QLineEdit::Password
     );
 
-    oNhapLaiMatKhau->setEchoMode(
+    txtConfirmPassword->setEchoMode(
         QLineEdit::Password
     );
 
     // Tao hop chon quyen
-    hopQuyenTaiKhoan =
+    cbAccountRole =
         new QComboBox(this);
 
-    hopQuyenTaiKhoan->addItem(
+    cbAccountRole->setObjectName("cbAccountRole");
+
+    cbAccountRole->addItem(
         "Quan tri vien"
     );
 
-    hopQuyenTaiKhoan->addItem(
+    cbAccountRole->addItem(
         "Nhan vien"
     );
 
     // Tao bang danh sach tai khoan
-    bangDanhSachTaiKhoan =
+    tableAccountList =
         new QTableWidget(this);
 
-    bangDanhSachTaiKhoan->setColumnCount(5);
+    tableAccountList->setObjectName("tableAccountList");
 
-    bangDanhSachTaiKhoan->setHorizontalHeaderLabels(
+    tableAccountList->setColumnCount(5);
+
+    tableAccountList->setHorizontalHeaderLabels(
         QStringList()
         << "ID"
         << "Ten dang nhap"
@@ -131,82 +140,91 @@ TaoTaiKhoan::TaoTaiKhoan(
         << "Ngay tao"
     );
 
-    bangDanhSachTaiKhoan
+    tableAccountList
         ->horizontalHeader()
         ->setSectionResizeMode(
             QHeaderView::Stretch
         );
 
-    bangDanhSachTaiKhoan->setSelectionMode(
+    tableAccountList->setSelectionMode(
         QAbstractItemView::SingleSelection
     );
 
-    bangDanhSachTaiKhoan->setSelectionBehavior(
+    tableAccountList->setSelectionBehavior(
         QAbstractItemView::SelectRows
     );
 
-    bangDanhSachTaiKhoan->setEditTriggers(
+    tableAccountList->setEditTriggers(
         QAbstractItemView::NoEditTriggers
     );
 
-    bangDanhSachTaiKhoan
+    tableAccountList
         ->verticalHeader()
         ->setVisible(false);
 
     // Tao cac nut chuc nang
-    nutTaoTaiKhoan =
+    btnCreateAccount =
         new QPushButton(
             "TAO TAI KHOAN",
             this
         );
 
-    nutCapNhatTaiKhoan =
+    btnUpdateAccount =
         new QPushButton(
             "CAP NHAT",
             this
         );
 
-    nutDoiMatKhau =
+    btnChangePassword =
         new QPushButton(
             "DOI MAT KHAU",
             this
         );
 
-    nutXoaTaiKhoan =
+    btnDeleteAccount =
         new QPushButton(
             "XOA TAI KHOAN",
             this
         );
 
-    nutTaiLaiDanhSach =
+    btnReloadList =
         new QPushButton(
             "TAI LAI",
             this
         );
 
-    nutHuy =
+    btnCancel =
         new QPushButton(
             "DONG",
             this
         );
 
-    nutTaoTaiKhoan->setMinimumHeight(38);
-    nutCapNhatTaiKhoan->setMinimumHeight(38);
-    nutDoiMatKhau->setMinimumHeight(38);
-    nutXoaTaiKhoan->setMinimumHeight(38);
-    nutTaiLaiDanhSach->setMinimumHeight(38);
-    nutHuy->setMinimumHeight(38);
+    btnCreateAccount->setObjectName("btnCreateAccount");
+    btnUpdateAccount->setObjectName("btnUpdateAccount");
+    btnChangePassword->setObjectName("btnChangePassword");
+    btnDeleteAccount->setObjectName("btnDeleteAccount");
+    btnReloadList->setObjectName("btnReloadList");
+    btnCancel->setObjectName("btnCancel");
+
+    btnCreateAccount->setMinimumHeight(38);
+    btnUpdateAccount->setMinimumHeight(38);
+    btnChangePassword->setMinimumHeight(38);
+    btnDeleteAccount->setMinimumHeight(38);
+    btnReloadList->setMinimumHeight(38);
+    btnCancel->setMinimumHeight(38);
 
     // Tao nhan thong bao
-    nhanThongBao =
+    lblNotification =
         new QLabel(
             "Chon tai khoan trong bang hoac nhap thong tin moi",
             this
         );
 
-    nhanThongBao->setAlignment(
+    lblNotification->setAlignment(
         Qt::AlignCenter
     );
+    lblTitle->setObjectName("lblTitle");
+    lblNotification->setObjectName("lblNotification");
 
     // Bo cuc nhap thong tin
     QFormLayout *boCucNhap =
@@ -214,27 +232,27 @@ TaoTaiKhoan::TaoTaiKhoan(
 
     boCucNhap->addRow(
         "Ten dang nhap:",
-        oTenDangNhap
+        txtUsername
     );
 
     boCucNhap->addRow(
         "Ho va ten:",
-        oHoTen
+        txtFullName
     );
 
     boCucNhap->addRow(
         "Quyen tai khoan:",
-        hopQuyenTaiKhoan
+        cbAccountRole
     );
 
     boCucNhap->addRow(
         "Mat khau:",
-        oMatKhau
+        txtPassword
     );
 
     boCucNhap->addRow(
         "Nhap lai mat khau:",
-        oNhapLaiMatKhau
+        txtConfirmPassword
     );
 
     // Bo cuc cac nut
@@ -242,37 +260,37 @@ TaoTaiKhoan::TaoTaiKhoan(
         new QGridLayout;
 
     boCucNut->addWidget(
-        nutTaoTaiKhoan,
+        btnCreateAccount,
         0,
         0
     );
 
     boCucNut->addWidget(
-        nutCapNhatTaiKhoan,
+        btnUpdateAccount,
         0,
         1
     );
 
     boCucNut->addWidget(
-        nutDoiMatKhau,
+        btnChangePassword,
         0,
         2
     );
 
     boCucNut->addWidget(
-        nutXoaTaiKhoan,
+        btnDeleteAccount,
         1,
         0
     );
 
     boCucNut->addWidget(
-        nutTaiLaiDanhSach,
+        btnReloadList,
         1,
         1
     );
 
     boCucNut->addWidget(
-        nutHuy,
+        btnCancel,
         1,
         2
     );
@@ -291,7 +309,7 @@ TaoTaiKhoan::TaoTaiKhoan(
     boCucChinh->setSpacing(12);
 
     boCucChinh->addWidget(
-        nhanTieuDe
+        lblTitle
     );
 
     boCucChinh->addLayout(
@@ -303,75 +321,80 @@ TaoTaiKhoan::TaoTaiKhoan(
     );
 
     boCucChinh->addWidget(
-        bangDanhSachTaiKhoan
+        tableAccountList
     );
 
     boCucChinh->addWidget(
-        nhanThongBao
+        lblNotification
     );
 
     // Ket noi cac nut
     connect(
-        nutTaoTaiKhoan,
+        btnCreateAccount,
         &QPushButton::clicked,
         this,
         &TaoTaiKhoan::xuLyTaoTaiKhoan
     );
 
     connect(
-        nutCapNhatTaiKhoan,
+        btnUpdateAccount,
         &QPushButton::clicked,
         this,
         &TaoTaiKhoan::xuLyCapNhatTaiKhoan
     );
 
     connect(
-        nutDoiMatKhau,
+        btnChangePassword,
         &QPushButton::clicked,
         this,
         &TaoTaiKhoan::xuLyDoiMatKhau
     );
 
     connect(
-        nutXoaTaiKhoan,
+        btnDeleteAccount,
         &QPushButton::clicked,
         this,
         &TaoTaiKhoan::xuLyXoaTaiKhoan
     );
 
     connect(
-        nutTaiLaiDanhSach,
+        btnReloadList,
         &QPushButton::clicked,
         this,
         &TaoTaiKhoan::xuLyTaiLaiDanhSach
     );
 
     connect(
-        nutHuy,
+        btnCancel,
         &QPushButton::clicked,
         this,
         &TaoTaiKhoan::huyTaoTaiKhoan
     );
 
     connect(
-        bangDanhSachTaiKhoan,
+        tableAccountList,
         &QTableWidget::cellClicked,
         this,
         &TaoTaiKhoan::xuLyChonTaiKhoan
     );
 
     connect(
-        oNhapLaiMatKhau,
+        txtConfirmPassword,
         &QLineEdit::returnPressed,
         this,
         &TaoTaiKhoan::xuLyTaoTaiKhoan
     );
 
     taiDanhSachTaiKhoan();
-    oTenDangNhap->setFocus();
+    txtUsername->setFocus();
 }
 
 void TaoTaiKhoan::xuLyTaoTaiKhoan()
+{
+    taoTaiKhoanTuGiaoDien();
+}
+
+void TaoTaiKhoan::taoTaiKhoanTuGiaoDien()
 {
     if (!kiemTraThongTinTaoMoi())
     {
@@ -379,16 +402,16 @@ void TaoTaiKhoan::xuLyTaoTaiKhoan()
     }
 
     const QString tenDangNhap =
-        oTenDangNhap->text().trimmed();
+        txtUsername->text().trimmed();
 
     const QString matKhau =
-        oMatKhau->text();
+        txtPassword->text();
 
     const QString hoTen =
-        oHoTen->text().trimmed();
+        txtFullName->text().trimmed();
 
     const QString quyen =
-        hopQuyenTaiKhoan->currentText();
+        cbAccountRole->currentText();
 
     QString thongBaoLoi;
 
@@ -410,13 +433,13 @@ void TaoTaiKhoan::xuLyTaoTaiKhoan()
             )
         )
         {
-            nhanThongBao->setText(
+            lblNotification->setText(
                 "Ten dang nhap da ton tai"
             );
         }
         else
         {
-            nhanThongBao->setText(
+            lblNotification->setText(
                 "Khong tao duoc tai khoan: " +
                 thongBaoLoi
             );
@@ -437,24 +460,29 @@ void TaoTaiKhoan::xuLyTaoTaiKhoan()
 
 void TaoTaiKhoan::xuLyCapNhatTaiKhoan()
 {
+    capNhatTaiKhoanTuGiaoDien();
+}
+
+void TaoTaiKhoan::capNhatTaiKhoanTuGiaoDien()
+{
     if (!kiemTraDaChonTaiKhoan())
     {
         return;
     }
 
     const QString hoTen =
-        oHoTen->text().trimmed();
+        txtFullName->text().trimmed();
 
     const QString quyen =
-        hopQuyenTaiKhoan->currentText();
+        cbAccountRole->currentText();
 
     if (hoTen.isEmpty())
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Ho va ten khong duoc de trong"
         );
 
-        oHoTen->setFocus();
+        txtFullName->setFocus();
         return;
     }
 
@@ -503,23 +531,28 @@ void TaoTaiKhoan::xuLyCapNhatTaiKhoan()
 
 void TaoTaiKhoan::xuLyDoiMatKhau()
 {
+    doiMatKhauTuGiaoDien();
+}
+
+void TaoTaiKhoan::doiMatKhauTuGiaoDien()
+{
     if (!kiemTraDaChonTaiKhoan())
     {
         return;
     }
 
     const QString matKhauMoi =
-        oMatKhau->text();
+        txtPassword->text();
 
     const QString nhapLaiMatKhau =
-        oNhapLaiMatKhau->text();
+        txtConfirmPassword->text();
 
     if (
         matKhauMoi.isEmpty() ||
         nhapLaiMatKhau.isEmpty()
     )
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Chua nhap mat khau moi"
         );
 
@@ -528,7 +561,7 @@ void TaoTaiKhoan::xuLyDoiMatKhau()
 
     if (matKhauMoi.length() < 6)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Mat khau moi phai co it nhat 6 ky tu"
         );
 
@@ -537,12 +570,12 @@ void TaoTaiKhoan::xuLyDoiMatKhau()
 
     if (matKhauMoi != nhapLaiMatKhau)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Hai mat khau khong giong nhau"
         );
 
-        oNhapLaiMatKhau->clear();
-        oNhapLaiMatKhau->setFocus();
+        txtConfirmPassword->clear();
+        txtConfirmPassword->setFocus();
         return;
     }
 
@@ -584,15 +617,20 @@ void TaoTaiKhoan::xuLyDoiMatKhau()
         "Doi mat khau thanh cong."
     );
 
-    oMatKhau->clear();
-    oNhapLaiMatKhau->clear();
+    txtPassword->clear();
+    txtConfirmPassword->clear();
 
-    nhanThongBao->setText(
+    lblNotification->setText(
         "Da doi mat khau tai khoan"
     );
 }
 
 void TaoTaiKhoan::xuLyXoaTaiKhoan()
+{
+    xoaTaiKhoanTuGiaoDien();
+}
+
+void TaoTaiKhoan::xoaTaiKhoanTuGiaoDien()
 {
     if (!kiemTraDaChonTaiKhoan())
     {
@@ -600,7 +638,7 @@ void TaoTaiKhoan::xuLyXoaTaiKhoan()
     }
 
     const QString tenDangNhapCanXoa =
-        oTenDangNhap->text().trimmed();
+        txtUsername->text().trimmed();
 
     const QMessageBox::StandardButton luaChon =
         QMessageBox::question(
@@ -651,7 +689,7 @@ void TaoTaiKhoan::xuLyTaiLaiDanhSach()
     xoaNoiDungNhap();
     taiDanhSachTaiKhoan();
 
-    nhanThongBao->setText(
+    lblNotification->setText(
         "Da tai lai danh sach tai khoan"
     );
 }
@@ -669,25 +707,25 @@ void TaoTaiKhoan::xuLyChonTaiKhoan(
     }
 
     QTableWidgetItem *oId =
-        bangDanhSachTaiKhoan->item(
+        tableAccountList->item(
             dong,
             0
         );
 
     QTableWidgetItem *oTen =
-        bangDanhSachTaiKhoan->item(
+        tableAccountList->item(
             dong,
             1
         );
 
     QTableWidgetItem *oHoTenBang =
-        bangDanhSachTaiKhoan->item(
+        tableAccountList->item(
             dong,
             2
         );
 
     QTableWidgetItem *oQuyen =
-        bangDanhSachTaiKhoan->item(
+        tableAccountList->item(
             dong,
             3
         );
@@ -705,32 +743,32 @@ void TaoTaiKhoan::xuLyChonTaiKhoan(
     idTaiKhoanDangChon =
         oId->text().toInt();
 
-    oTenDangNhap->setText(
+    txtUsername->setText(
         oTen->text()
     );
 
-    oTenDangNhap->setEnabled(false);
+    txtUsername->setEnabled(false);
 
-    oHoTen->setText(
+    txtFullName->setText(
         oHoTenBang->text()
     );
 
     const int viTriQuyen =
-        hopQuyenTaiKhoan->findText(
+        cbAccountRole->findText(
             oQuyen->text()
         );
 
     if (viTriQuyen >= 0)
     {
-        hopQuyenTaiKhoan->setCurrentIndex(
+        cbAccountRole->setCurrentIndex(
             viTriQuyen
         );
     }
 
-    oMatKhau->clear();
-    oNhapLaiMatKhau->clear();
+    txtPassword->clear();
+    txtConfirmPassword->clear();
 
-    nhanThongBao->setText(
+    lblNotification->setText(
         "Da chon tai khoan: " +
         oTen->text()
     );
@@ -755,7 +793,7 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
     const QList<ThongTinTaiKhoan> &danhSach
 )
 {
-    bangDanhSachTaiKhoan->setRowCount(
+    tableAccountList->setRowCount(
         danhSach.size()
     );
 
@@ -768,7 +806,7 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
         const ThongTinTaiKhoan &taiKhoan =
             danhSach.at(dong);
 
-        bangDanhSachTaiKhoan->setItem(
+        tableAccountList->setItem(
             dong,
             0,
             new QTableWidgetItem(
@@ -778,7 +816,7 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
             )
         );
 
-        bangDanhSachTaiKhoan->setItem(
+        tableAccountList->setItem(
             dong,
             1,
             new QTableWidgetItem(
@@ -786,7 +824,7 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
             )
         );
 
-        bangDanhSachTaiKhoan->setItem(
+        tableAccountList->setItem(
             dong,
             2,
             new QTableWidgetItem(
@@ -794,7 +832,7 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
             )
         );
 
-        bangDanhSachTaiKhoan->setItem(
+        tableAccountList->setItem(
             dong,
             3,
             new QTableWidgetItem(
@@ -802,7 +840,7 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
             )
         );
 
-        bangDanhSachTaiKhoan->setItem(
+        tableAccountList->setItem(
             dong,
             4,
             new QTableWidgetItem(
@@ -815,20 +853,20 @@ void TaoTaiKhoan::hienThiDanhSachTaiKhoan(
 bool TaoTaiKhoan::kiemTraThongTinTaoMoi()
 {
     const QString tenDangNhap =
-        oTenDangNhap->text().trimmed();
+        txtUsername->text().trimmed();
 
     const QString matKhau =
-        oMatKhau->text();
+        txtPassword->text();
 
     const QString nhapLaiMatKhau =
-        oNhapLaiMatKhau->text();
+        txtConfirmPassword->text();
 
     const QString hoTen =
-        oHoTen->text().trimmed();
+        txtFullName->text().trimmed();
 
     if (idTaiKhoanDangChon > 0)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Nhan TAI LAI truoc khi tao tai khoan moi"
         );
 
@@ -842,7 +880,7 @@ bool TaoTaiKhoan::kiemTraThongTinTaoMoi()
         hoTen.isEmpty()
     )
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Chua nhap day du thong tin"
         );
 
@@ -851,7 +889,7 @@ bool TaoTaiKhoan::kiemTraThongTinTaoMoi()
 
     if (tenDangNhap.length() < 4)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Ten dang nhap phai co it nhat 4 ky tu"
         );
 
@@ -860,7 +898,7 @@ bool TaoTaiKhoan::kiemTraThongTinTaoMoi()
 
     if (matKhau.length() < 6)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Mat khau phai co it nhat 6 ky tu"
         );
 
@@ -869,12 +907,12 @@ bool TaoTaiKhoan::kiemTraThongTinTaoMoi()
 
     if (matKhau != nhapLaiMatKhau)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Hai mat khau khong giong nhau"
         );
 
-        oNhapLaiMatKhau->clear();
-        oNhapLaiMatKhau->setFocus();
+        txtConfirmPassword->clear();
+        txtConfirmPassword->setFocus();
 
         return false;
     }
@@ -886,7 +924,7 @@ bool TaoTaiKhoan::kiemTraDaChonTaiKhoan()
 {
     if (idTaiKhoanDangChon <= 0)
     {
-        nhanThongBao->setText(
+        lblNotification->setText(
             "Chua chon tai khoan trong bang"
         );
 
@@ -900,21 +938,21 @@ void TaoTaiKhoan::xoaNoiDungNhap()
 {
     idTaiKhoanDangChon = -1;
 
-    oTenDangNhap->clear();
-    oTenDangNhap->setEnabled(true);
+    txtUsername->clear();
+    txtUsername->setEnabled(true);
 
-    oMatKhau->clear();
-    oNhapLaiMatKhau->clear();
-    oHoTen->clear();
+    txtPassword->clear();
+    txtConfirmPassword->clear();
+    txtFullName->clear();
 
-    hopQuyenTaiKhoan->setCurrentIndex(0);
+    cbAccountRole->setCurrentIndex(0);
 
-    bangDanhSachTaiKhoan
+    tableAccountList
         ->clearSelection();
 
-    nhanThongBao->setText(
+    lblNotification->setText(
         "Nhap thong tin tai khoan moi"
     );
 
-    oTenDangNhap->setFocus();
+    txtUsername->setFocus();
 }

@@ -25,12 +25,14 @@ private slots:
     void moTaoTaiKhoan();
 
 private:
+    void dangNhapNguoiDung();
+
     // Cac thanh phan tren giao dien dang nhap
-    QLineEdit *oTenDangNhap;
-    QLineEdit *oMatKhau;
-    QPushButton *nutDangNhap;
-    QPushButton *nutTaoTaiKhoan;
-    QLabel *nhanThongBao;
+    QLineEdit *txtUsername;
+    QLineEdit *txtPassword;
+    QPushButton *btnLogin;
+    QPushButton *btnCreateAccount;
+    QLabel *lblNotification;
 
     // Thong tin tai khoan dang nhap thanh cong
     QString tenDangNhapDaDangNhap;

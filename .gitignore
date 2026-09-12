@@ -20,10 +20,6 @@ config/
 __pycache__/
 *.py[cod]
 
-# Test outputs
-tests/esp32_mock/run_esp_tests
-tests/esp32_mock/*.o
-testqtcreator/build/
 *.zip
 
 # OS/editor noise
