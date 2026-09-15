@@ -96,6 +96,26 @@ QString chuanHoaKetQuaHienThi(
         return QString::fromUtf8("TỪ CHỐI");
     }
 
+    if (ketQuaChuan == "MO THU CONG")
+    {
+        return QString::fromUtf8("MỞ THỦ CÔNG");
+    }
+
+    if (ketQuaChuan == "DONG THU CONG")
+    {
+        return QString::fromUtf8("ĐÓNG THỦ CÔNG");
+    }
+
+    if (ketQuaChuan == "KET NOI BLE")
+    {
+        return QString::fromUtf8("KẾT NỐI BLE");
+    }
+
+    if (ketQuaChuan == "NGAT BLE")
+    {
+        return QString::fromUtf8("NGẮT BLE");
+    }
+
     return ketQua;
 }
 }
@@ -186,25 +206,8 @@ CuaSoChinh::CuaSoChinh(
                 return;
             }
 
-            CaiDatHeThong cuaSoCaiDat(this);
-            if (cuaSoCaiDat.exec() == QDialog::Accepted)
-            {
-                const CauHinhHeThong cauHinhMoi =
-                    QuanLyCauHinh::docCauHinh();
-
-                if (ketNoiBle->daKetNoi())
-                {
-                    guiThoiGianDongCua(
-                        cauHinhMoi.thoiGianDongCuaGiay
-                    );
-
-                    ghiNhatKy(
-                        "Da dong bo thoi gian dong cua moi: " +
-                        QString::number(cauHinhMoi.thoiGianDongCuaGiay) +
-                        "s xuong ESP32."
-                    );
-                }
-            }
+            CaiDatHeThong cuaSoCaiDat(ketNoiBle, this);
+            cuaSoCaiDat.exec();
 
             ghiNhatKy(
                 "Da dong cua so cai dat he thong."
@@ -360,6 +363,13 @@ CuaSoChinh::CuaSoChinh(
     connect(
         ui->txtHistorySearch,
         &QLineEdit::returnPressed,
+        this,
+        &CuaSoChinh::xuLyTimKiemLichSu
+    );
+
+    connect(
+        ui->cbHistoryResult,
+        &QComboBox::currentIndexChanged,
         this,
         &CuaSoChinh::xuLyTimKiemLichSu
     );
@@ -1359,6 +1369,16 @@ void CuaSoChinh::xuLyBleDaKetNoi()
 
     guiThoiGianDongCua(cauHinh.thoiGianDongCuaGiay);
     capNhatTrangThaiKetNoi();
+
+    luuLichSuRaVao(
+        "BLE",
+        "HE THONG RA VAO HIEU",
+        "BLE GATT",
+        "KET NOI BLE",
+        "-"
+    );
+
+    taiLichSuRaVao();
 }
 
 void CuaSoChinh::xuLyBleDaNgatKetNoi()
@@ -1377,6 +1397,16 @@ void CuaSoChinh::xuLyBleDaNgatKetNoi()
     }
 
     capNhatTrangThaiKetNoi();
+
+    luuLichSuRaVao(
+        "BLE",
+        "HE THONG RA VAO HIEU",
+        "BLE GATT",
+        "NGAT BLE",
+        "-"
+    );
+
+    taiLichSuRaVao();
 }
 
 void CuaSoChinh::xuLyLoiBle(
@@ -1727,11 +1757,13 @@ void CuaSoChinh::xuLyMoCua()
             "THU_CONG",
             hoTenNguoiDungHienTai,
             tenDangNhapHienTai,
-            "CHO PHEP",
+            "MO THU CONG",
             "CHO XAC NHAN"
         );
 
     idLichSuDangChoMoCua = idLichSuMoi;
+
+    taiLichSuRaVao();
 }
 
 void CuaSoChinh::xuLyDongCua()
@@ -1783,6 +1815,16 @@ void CuaSoChinh::xuLyDongCua()
     ghiNhatKy(
         "Da gui lenh dong cua thu cong."
     );
+
+    luuLichSuRaVao(
+        "THU_CONG",
+        hoTenNguoiDungHienTai,
+        tenDangNhapHienTai,
+        "DONG THU CONG",
+        "DA DONG"
+    );
+
+    taiLichSuRaVao();
 }
 
 bool CuaSoChinh::guiDuLieu(

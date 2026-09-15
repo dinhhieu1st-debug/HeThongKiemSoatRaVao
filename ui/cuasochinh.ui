@@ -539,23 +539,43 @@ Hay chon ket noi BLE.</string>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="cbHistoryResult">
-            <item>
-             <property name="text">
-              <string>Tat ca ket qua</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>CHO PHEP</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>TU CHOI</string>
-             </property>
-            </item>
-           </widget>
+            <widget class="QComboBox" name="cbHistoryResult">
+             <item>
+              <property name="text">
+               <string>Tất cả sự kiện</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Thẻ: Cho phép</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Thẻ: Từ chối</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mở thủ công</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Đóng thủ công</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Kết nối BLE</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Ngắt BLE</string>
+              </property>
+             </item>
+            </widget>
           </item>
           <item>
            <widget class="QPushButton" name="btnSearchHistory">

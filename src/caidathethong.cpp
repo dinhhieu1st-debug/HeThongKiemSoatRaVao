@@ -1,5 +1,6 @@
 #include "caidathethong.h"
 #include "cauhinhhethong.h"
+#include "ketnoible.h"
 
 #include <QFormLayout>
 #include <QHBoxLayout>
@@ -10,9 +11,11 @@
 #include <QVBoxLayout>
 
 CaiDatHeThong::CaiDatHeThong(
+    KetNoiBle *ketNoiBle,
     QWidget *cha
 )
     : QDialog(cha),
+      ketNoiBle(ketNoiBle),
       spnDoorCloseTime(nullptr),
       btnSave(nullptr),
       btnCancel(nullptr),
@@ -206,11 +209,31 @@ void CaiDatHeThong::luuCauHinhTuGiaoDien()
         return;
     }
 
-    QMessageBox::information(
-        this,
-        "Luu cau hinh",
-        "Da luu cau hinh thanh cong."
-    );
+    if (ketNoiBle != nullptr && ketNoiBle->daKetNoi())
+    {
+        ketNoiBle->guiDuLieu(
+            "access/config/door_timeout",
+            QString::number(cauHinh.thoiGianDongCuaGiay)
+        );
+
+        QMessageBox::information(
+            this,
+            "Luu cau hinh",
+            "Da luu cau hinh va dong bo ngay " +
+            QString::number(cauHinh.thoiGianDongCuaGiay) +
+            " giay sang ESP32 thanh cong!"
+        );
+    }
+    else
+    {
+        QMessageBox::information(
+            this,
+            "Luu cau hinh",
+            "Da luu cau hinh (" +
+            QString::number(cauHinh.thoiGianDongCuaGiay) +
+            " giay). Cau hinh se tu dong gui toi ESP32 ngay khi ket noi BLE."
+        );
+    }
 
     accept();
 }

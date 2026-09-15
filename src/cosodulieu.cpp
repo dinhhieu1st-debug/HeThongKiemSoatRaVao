@@ -1251,15 +1251,68 @@ CoSoDuLieu::timKiemLichSuRaVao(
         "WHERE ("
         "uid LIKE :tu_khoa "
         "OR ho_ten LIKE :tu_khoa "
-        "OR ma_so LIKE :tu_khoa"
+        "OR ma_so LIKE :tu_khoa "
+        "OR ket_qua LIKE :tu_khoa"
         ") ";
 
-    const bool coLocKetQua =
+    QString ketQuaLoc;
+    bool coLocKetQua = false;
+
+    if (
         !ketQuaChuan.isEmpty() &&
-        ketQuaChuan.compare(
-            "Tat ca ket qua",
-            Qt::CaseInsensitive
-        ) != 0;
+        !ketQuaChuan.startsWith("Tat ca", Qt::CaseInsensitive) &&
+        !ketQuaChuan.startsWith("Tất cả", Qt::CaseInsensitive)
+    )
+    {
+        coLocKetQua = true;
+
+        if (
+            ketQuaChuan.contains("CHO PHEP", Qt::CaseInsensitive) ||
+            ketQuaChuan.contains("Cho phép", Qt::CaseInsensitive)
+        )
+        {
+            ketQuaLoc = "CHO PHEP";
+        }
+        else if (
+            ketQuaChuan.contains("TU CHOI", Qt::CaseInsensitive) ||
+            ketQuaChuan.contains("Từ chối", Qt::CaseInsensitive)
+        )
+        {
+            ketQuaLoc = "TU CHOI";
+        }
+        else if (
+            ketQuaChuan.contains("MO THU CONG", Qt::CaseInsensitive) ||
+            ketQuaChuan.contains("Mở thủ công", Qt::CaseInsensitive)
+        )
+        {
+            ketQuaLoc = "MO THU CONG";
+        }
+        else if (
+            ketQuaChuan.contains("DONG THU CONG", Qt::CaseInsensitive) ||
+            ketQuaChuan.contains("Đóng thủ công", Qt::CaseInsensitive)
+        )
+        {
+            ketQuaLoc = "DONG THU CONG";
+        }
+        else if (
+            ketQuaChuan.contains("KET NOI BLE", Qt::CaseInsensitive) ||
+            ketQuaChuan.contains("Kết nối BLE", Qt::CaseInsensitive)
+        )
+        {
+            ketQuaLoc = "KET NOI BLE";
+        }
+        else if (
+            ketQuaChuan.contains("NGAT BLE", Qt::CaseInsensitive) ||
+            ketQuaChuan.contains("Ngắt BLE", Qt::CaseInsensitive)
+        )
+        {
+            ketQuaLoc = "NGAT BLE";
+        }
+        else
+        {
+            ketQuaLoc = ketQuaChuan.toUpper();
+        }
+    }
 
     if (coLocKetQua)
     {
@@ -1283,7 +1336,7 @@ CoSoDuLieu::timKiemLichSuRaVao(
     {
         truyVan.bindValue(
             ":ket_qua",
-            ketQuaChuan.toUpper()
+            ketQuaLoc
         );
     }
 

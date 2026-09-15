@@ -6,6 +6,7 @@
 class QLabel;
 class QSpinBox;
 class QPushButton;
+class KetNoiBle;
 
 class CaiDatHeThong : public QDialog
 {
@@ -13,6 +14,7 @@ class CaiDatHeThong : public QDialog
 
 public:
     explicit CaiDatHeThong(
+        KetNoiBle *ketNoiBle = nullptr,
         QWidget *cha = nullptr
     );
 
@@ -28,6 +30,8 @@ private:
 
     // Doc cau hinh hien tai va dua len giao dien
     void taiCauHinhHienTai();
+
+    KetNoiBle *ketNoiBle;
 
     QSpinBox *spnDoorCloseTime;
 
