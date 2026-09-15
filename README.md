@@ -28,16 +28,18 @@ Phân công xử lý:
 
 ## 2. Chức năng chính
 
-- Đăng nhập và phân quyền quản trị viên/người dùng.
+- Đăng nhập và phân quyền quản trị viên / nhân viên.
 - Tạo, sửa, xóa tài khoản và đổi mật khẩu.
-- Quản lý danh sách thẻ RFID.
+- Quản lý danh sách thẻ RFID (thêm, sửa, xóa, tìm kiếm, lấy UID vừa quẹt).
 - Quét và chọn đúng thiết bị BLE trước khi kết nối.
-- Tự thử kết nối lại khi BLE bị ngắt.
-- Nhận UID RFID, trạng thái ESP32, cảm biến và trạng thái cửa.
-- Gửi lệnh mở/đóng cửa thủ công.
-- Tự động gửi kết quả `GRANTED` hoặc `DENIED` về ESP32.
-- Cấu hình thời gian tự đóng cửa từ 1 đến 300 giây.
-- Lưu lịch sử ra/vào bằng SQLite và xuất CSV.
+- Cơ chế hàng đợi gửi BLE (FIFO Write Queue) đảm bảo truyền tin tuần tự, chống rớt gói.
+- Tự động thử kết nối lại khi BLE bị ngắt.
+- Nhận UID RFID, trạng thái ESP32, cảm biến vật cản và trạng thái cửa thời gian thực.
+- Gửi lệnh mở/đóng cửa thủ công từ xa dành cho Quản trị viên.
+- Tự động gửi kết quả `GRANTED` hoặc `DENIED` kèm lệnh mở cửa về ESP32.
+- Cấu hình thời gian tự đóng cửa (1 - 300 giây) và đồng bộ tức thì sang ESP32 qua BLE.
+- Lưu lịch sử ra/vào toàn diện (quẹt thẻ, mở/đóng thủ công, kết nối/ngắt BLE) bằng SQLite.
+- Bộ lọc phân loại lịch sử đa năng (tất cả, thẻ cho phép, từ chối, mở thủ công, đóng thủ công, kết nối BLE, ngắt BLE) và xuất báo cáo CSV (chuẩn UTF-8 BOM).
 
 Tài khoản tạo lần đầu:
 
@@ -56,19 +58,19 @@ Nên đổi mật khẩu mặc định ngay sau lần đăng nhập đầu tiên
 ├── CMakeLists.txt              # Khai báo project và dependency Qt
 ├── CMakeLists.txt.user         # Kit Qt Creator ARM64 của máy ảo hiện tại
 ├── README.md                   # Tài liệu tổng thể
-├── include/                    # Header C++
+├── include/                    # Header C++ (Qt)
 ├── src/                        # Mã nguồn ứng dụng Qt
-├── ui/                         # Giao diện Qt Designer
+├── ui/                         # Giao diện Qt Designer (.ui)
 ├── scripts/
 │   └── deploy_to_pi.sh         # Build ARM64, chép và chạy trên Pi
+├── esp32/                      # Mã nguồn firmware PlatformIO cho ESP32
+│   ├── platformio.ini          # Cấu hình board và thư viện ESP32
+│   ├── include/                # Header định nghĩa chân, protocol BLE, cảm biến
+│   └── src/                    # Logic BLE, RFID, servo, OLED, buzzer
 └── build-pi/                   # Sản phẩm cross-build, được CMake tạo lại
 ```
 
-Firmware ESP32 thật hiện được quản lý ở project PlatformIO riêng trên Windows:
-
-```text
-C:\Users\admin\Documents\PlatformIO\Projects\RFID
-```
+Firmware ESP32 được quản lý trực tiếp trong thư mục `esp32/` của repository này.
 
 ## 4. Giao thức BLE
 
@@ -104,7 +106,7 @@ Các topic ứng dụng đang xử lý:
 | `access/result` | Pi → ESP32 | `GRANTED` hoặc `DENIED` |
 | `access/config/door_timeout` | Pi → ESP32 | Số giây tự đóng cửa |
 
-Ứng dụng không yêu cầu pair/bonding. Nó dừng discovery trước khi kết nối, chờ adapter ổn định rồi mới tạo GATT controller và subscribe Notify.
+Ứng dụng không yêu cầu pair/bonding. Nó dừng discovery trước khi kết nối, chờ adapter ổn định rồi mới tạo GATT controller và subscribe Notify. Phía Pi sử dụng hàng đợi ghi FIFO để đảm bảo các lệnh gửi liên tiếp không bị BlueZ drop.
 
 ## 5. Dữ liệu khi chạy trên Raspberry Pi
 
@@ -124,7 +126,9 @@ Các file runtime nằm cạnh binary:
 
 SQLite có ba bảng chính: `tai_khoan`, `the_rfid` và `lich_su_ra_vao`. Mật khẩu được lưu dưới dạng SHA-256; đây là mức bảo vệ hiện tại của ứng dụng, chưa phải cơ chế băm mật khẩu có salt chuyên dụng.
 
-## Quy ước đặt tên C++/Qt
+## 6. Quy ước lập trình C++/Qt
+
+### Quy ước đặt tên C++/Qt
 
 - Biến, hàm và signal/slot dùng `camelCase`.
 - Lớp và `struct` dùng `PascalCase`.
@@ -225,7 +229,7 @@ Script sẽ dừng nếu binary không phải ARM aarch64. Có thể thay `PI_IP
 - **Qt báo thiếu Bluetooth:** kiểm tra Kit ARM64 và `Qt6_DIR`; không cài bù module vào Qt x86_64 để giải quyết cross-build.
 - **Chương trình không hiện trên Pi:** xem `/home/pi/hethongkiemsoatravao.log`, phiên đồ họa `DISPLAY=:0` và quyền truy cập X/DBus.
 
-## 12. Lưu ý bảo trì
+## 11. Lưu ý bảo trì
 
 - Backup cả project Qt này và project PlatformIO trước khi đổi giao thức BLE hoặc chân phần cứng.
 - Khi đổi UUID/topic phải sửa đồng thời firmware ESP32 và `src/ketnoible.cpp`/`src/cuasochinh.cpp`.
