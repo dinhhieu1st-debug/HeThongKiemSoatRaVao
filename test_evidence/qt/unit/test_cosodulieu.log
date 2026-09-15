@@ -1,0 +1,17 @@
+********* Start testing of TestCoSoDuLieu *********
+Config: Using QtTest library 6.5.1, Qt 6.5.1 (arm64-little_endian-lp64 shared (dynamic) release build; by GCC 12.2.0), debian 12
+PASS   : TestCoSoDuLieu::initTestCase()
+PASS   : TestCoSoDuLieu::UT_QT_01_login_success()
+PASS   : TestCoSoDuLieu::UT_QT_02_login_wrong_password()
+PASS   : TestCoSoDuLieu::UT_QT_03_login_user_not_found()
+PASS   : TestCoSoDuLieu::UT_QT_04_add_account_valid()
+PASS   : TestCoSoDuLieu::UT_QT_05_add_account_duplicate_username()
+PASS   : TestCoSoDuLieu::UT_QT_06_add_rfid_card_valid()
+PASS   : TestCoSoDuLieu::UT_QT_07_add_rfid_duplicate_uid()
+PASS   : TestCoSoDuLieu::UT_QT_08_find_rfid_existing()
+PASS   : TestCoSoDuLieu::UT_QT_09_find_rfid_non_existing()
+PASS   : TestCoSoDuLieu::UT_QT_10_history_insert_and_retrieve()
+PASS   : TestCoSoDuLieu::UT_QT_11_history_filter()
+PASS   : TestCoSoDuLieu::cleanupTestCase()
+Totals: 13 passed, 0 failed, 0 skipped, 0 blacklisted, 128ms
+********* Finished testing of TestCoSoDuLieu *********

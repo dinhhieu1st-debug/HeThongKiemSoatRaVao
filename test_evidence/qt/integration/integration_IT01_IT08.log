@@ -1,0 +1,34 @@
+********* Start testing of TestBleEsp32Integration *********
+Config: Using QtTest library 6.5.1, Qt 6.5.1 (arm64-little_endian-lp64 shared (dynamic) release build; by GCC 12.2.0), debian 12
+QINFO  : TestBleEsp32Integration::initTestCase() qt.bluetooth.bluez: Missing CAP_NET_ADMIN permission. Cannot determine whether a found address is of random or public type.
+PASS   : TestBleEsp32Integration::initTestCase()
+QDEBUG : TestBleEsp32Integration::IT_01_Scan() === [IT-01] BLE SCAN START ===
+QDEBUG : TestBleEsp32Integration::IT_01_Scan() IT-01 SUCCESS: Found ESP32 -> "HE THONG RA VAO HIEU" [ "44:1D:64:F5:01:9E" ]
+PASS   : TestBleEsp32Integration::IT_01_Scan()
+QDEBUG : TestBleEsp32Integration::IT_02_Connect() === [IT-02] BLE CONNECT START ===
+QDEBUG : TestBleEsp32Integration::IT_02_Connect() IT-02 SUCCESS: GATT Service & Characteristic Discovered. Connected!
+PASS   : TestBleEsp32Integration::IT_02_Connect()
+QDEBUG : TestBleEsp32Integration::IT_03_Send() === [IT-03] SEND DATA Pi -> ESP32 ===
+QDEBUG : TestBleEsp32Integration::IT_03_Send() IT-03 SUCCESS: Lenh access/door/command|OPEN da duoc day vao queue va gui BLE
+PASS   : TestBleEsp32Integration::IT_03_Send()
+QDEBUG : TestBleEsp32Integration::IT_04_Receive() === [IT-04] RECEIVE DATA ESP32 -> Pi ===
+QDEBUG : TestBleEsp32Integration::IT_04_Receive() Dang cho Notify tu ESP32 trong 5 giay...
+QDEBUG : TestBleEsp32Integration::IT_04_Receive() WAITING FOR MANUAL ACTION: Vui long quet the RFID hoac kich hoat cam bien tren ESP32 de nhan Notify
+QDEBUG : TestBleEsp32Integration::IT_04_Receive() IT-04 NOTICE: Khong co tin hieu tu ESP32 trong cua so cho -> Can quet the vat ly (WAITING FOR MANUAL ACTION)
+PASS   : TestBleEsp32Integration::IT_04_Receive()
+QDEBUG : TestBleEsp32Integration::IT_05_Verify_Data() === [IT-05] VERIFY DATA INTEGRITY ===
+QDEBUG : TestBleEsp32Integration::IT_05_Verify_Data() IT-05 SUCCESS: Frame hop le da gui, dinh dang chuan TOPIC|PAYLOAD
+PASS   : TestBleEsp32Integration::IT_05_Verify_Data()
+QDEBUG : TestBleEsp32Integration::IT_06_Timeout() === [IT-06] TIMEOUT HANDLING ===
+QDEBUG : TestBleEsp32Integration::IT_06_Timeout() IT-06 SUCCESS: Ung dung khong bi treo, phan hoi timeout/disconnect binh thuong
+PASS   : TestBleEsp32Integration::IT_06_Timeout()
+QDEBUG : TestBleEsp32Integration::IT_07_Disconnect() === [IT-07] DISCONNECT HANDLING ===
+QDEBUG : TestBleEsp32Integration::IT_07_Disconnect() IT-07 SUCCESS: Nhan biet ngat ket noi thanh cong, he thong an toan
+PASS   : TestBleEsp32Integration::IT_07_Disconnect()
+QDEBUG : TestBleEsp32Integration::IT_08_Reconnect() === [IT-08] RECONNECT HANDLING ===
+QDEBUG : TestBleEsp32Integration::IT_08_Reconnect() IT-08 SUCCESS: Da ket noi lai voi ESP32 thanh cong!
+PASS   : TestBleEsp32Integration::IT_08_Reconnect()
+QWARN  : TestBleEsp32Integration::cleanupTestCase() qt.bluetooth.bluez: Low Energy Controller is not Unconnected when deleted. Deleted in state: QLowEnergyController::ClosingState
+PASS   : TestBleEsp32Integration::cleanupTestCase()
+Totals: 10 passed, 0 failed, 0 skipped, 0 blacklisted, 26742ms
+********* Finished testing of TestBleEsp32Integration *********

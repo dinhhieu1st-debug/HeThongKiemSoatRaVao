@@ -1,0 +1,12 @@
+********* Start testing of TestCauHinhHeThong *********
+Config: Using QtTest library 6.5.1, Qt 6.5.1 (arm64-little_endian-lp64 shared (dynamic) release build; by GCC 12.2.0), debian 12
+PASS   : TestCauHinhHeThong::initTestCase()
+PASS   : TestCauHinhHeThong::UT_QT_12_config_default()
+PASS   : TestCauHinhHeThong::UT_QT_13_timeout_min_boundary()
+PASS   : TestCauHinhHeThong::UT_QT_14_timeout_max_boundary()
+PASS   : TestCauHinhHeThong::UT_QT_15_timeout_below_min()
+PASS   : TestCauHinhHeThong::UT_QT_16_timeout_negative()
+PASS   : TestCauHinhHeThong::UT_QT_17_save_and_reload_roundtrip()
+PASS   : TestCauHinhHeThong::cleanupTestCase()
+Totals: 8 passed, 0 failed, 0 skipped, 0 blacklisted, 2ms
+********* Finished testing of TestCauHinhHeThong *********

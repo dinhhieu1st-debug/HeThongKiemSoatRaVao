@@ -1,4 +1,5 @@
 #include "ketnoible.h"
+#include "giaothucble.h"
 
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QBluetoothHostInfo>
@@ -305,20 +306,18 @@ bool KetNoiBle::guiDuLieu(
     if (
         !sanSang ||
         dichVu == nullptr ||
-        !characteristicGui.isValid() ||
-        topic.trimmed().isEmpty() ||
-        payload.contains('|') ||
-        payload.contains('\n') ||
-        payload.contains('\r')
+        !characteristicGui.isValid()
     )
     {
         return false;
     }
 
-    const QByteArray frame =
-        topic.trimmed().toUtf8() +
-        '|' +
-        payload.trimmed().toUtf8();
+    QByteArray frame;
+    QString thongBaoLoi;
+    if (!GiaoThucBle::dongGoiFrame(topic, payload, frame, thongBaoLoi))
+    {
+        return false;
+    }
 
     hangDoiGhi.enqueue(frame);
 
@@ -1097,29 +1096,17 @@ void KetNoiBle::batDauQuetKetNoiLai()
 
 void KetNoiBle::xuLyFrame(const QByteArray &frame)
 {
-    const QList<QByteArray> cacDong =
-        frame.split('\n');
+    QList<QPair<QString, QString>> danhSachGoiTin;
+    QString thongBaoLoi;
+    const bool hopLe = GiaoThucBle::phanTichFrame(frame, danhSachGoiTin, thongBaoLoi);
 
-    for (QByteArray dong : cacDong)
+    if (!hopLe && !thongBaoLoi.isEmpty())
     {
-        dong = dong.trimmed();
+        emit coLoi(thongBaoLoi);
+    }
 
-        const qsizetype viTri = dong.indexOf('|');
-
-        if (
-            viTri <= 0 ||
-            viTri >= dong.size() - 1
-        )
-        {
-            emit coLoi(
-                "Frame BLE khong dung TOPIC|PAYLOAD"
-            );
-            continue;
-        }
-
-        emit nhanDuLieu(
-            QString::fromUtf8(dong.left(viTri)).trimmed(),
-            QString::fromUtf8(dong.mid(viTri + 1)).trimmed()
-        );
+    for (const auto &goi : danhSachGoiTin)
+    {
+        emit nhanDuLieu(goi.first, goi.second);
     }
 }

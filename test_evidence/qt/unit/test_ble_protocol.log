@@ -1,0 +1,16 @@
+********* Start testing of TestBleProtocol *********
+Config: Using QtTest library 6.5.1, Qt 6.5.1 (arm64-little_endian-lp64 shared (dynamic) release build; by GCC 12.2.0), debian 12
+PASS   : TestBleProtocol::initTestCase()
+PASS   : TestBleProtocol::UT_QT_18_parse_valid_single_frame()
+PASS   : TestBleProtocol::UT_QT_19_parse_valid_multiline_frame()
+PASS   : TestBleProtocol::UT_QT_20_parse_missing_separator()
+PASS   : TestBleProtocol::UT_QT_21_parse_empty_topic()
+PASS   : TestBleProtocol::UT_QT_22_parse_empty_payload()
+PASS   : TestBleProtocol::UT_QT_23_format_valid_frame()
+PASS   : TestBleProtocol::UT_QT_24_format_forbidden_chars_separator()
+PASS   : TestBleProtocol::UT_QT_25_format_forbidden_chars_newline()
+PASS   : TestBleProtocol::UT_QT_26_format_forbidden_chars_carriage_return()
+PASS   : TestBleProtocol::UT_QT_27_format_empty_topic()
+PASS   : TestBleProtocol::cleanupTestCase()
+Totals: 12 passed, 0 failed, 0 skipped, 0 blacklisted, 1ms
+********* Finished testing of TestBleProtocol *********

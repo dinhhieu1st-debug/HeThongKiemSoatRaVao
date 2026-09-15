@@ -10,11 +10,12 @@ CMakeFiles/
 CMakeLists.txt.user*
 
 # Runtime data
-data/
-config/
+/data/
+/config/
 *.sqlite
 *.sqlite-journal
 *.log
+!test_evidence/**/*.log
 
 # Python cache
 __pycache__/
