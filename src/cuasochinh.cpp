@@ -1491,7 +1491,13 @@ void CuaSoChinh::xuLyUidRfid(
         QString trangThaiCua =
             "Khong mo duoc";
 
-        if (guiKetQuaThe("GRANTED"))
+        const bool daGuiKetQua =
+            guiKetQuaThe("GRANTED");
+
+        const bool daGuiLenhMo =
+            guiLenhCua("OPEN");
+
+        if (daGuiKetQua || daGuiLenhMo)
         {
             ui->lblDoorStatus->setText(
                 "Dang cho xac nhan mo"
@@ -1500,13 +1506,13 @@ void CuaSoChinh::xuLyUidRfid(
             trangThaiCua = "CHO XAC NHAN";
 
             ghiNhatKy(
-                "Da gui ket qua GRANTED toi ESP32 de mo cua."
+                "Da gui ket qua GRANTED va lenh OPEN toi ESP32."
             );
         }
         else
         {
             ghiNhatKy(
-                "Khong gui duoc ket qua GRANTED."
+                "Khong gui duoc ket qua hoac lenh mo cua."
             );
         }
 
