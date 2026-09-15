@@ -123,37 +123,12 @@ int main(int argc, char *argv[])
 
         QObject::connect(
             &cuaSoChinh,
-            &QMainWindow::destroyed,
+            &CuaSoChinh::daDongCuaSo,
             &vongLapCuaSoChinh,
             &QEventLoop::quit
-        );
-
-        QObject::connect(
-            &cuaSoChinh,
-            &QMainWindow::destroyed,
-            &ungDung,
-            []()
-            {
-            }
         );
 
         cuaSoChinh.show();
-
-        QObject::connect(
-            &cuaSoChinh,
-            &QMainWindow::destroyed,
-            &vongLapCuaSoChinh,
-            &QEventLoop::quit
-        );
-
-        QObject::connect(
-            &cuaSoChinh,
-            &QMainWindow::windowTitleChanged,
-            &vongLapCuaSoChinh,
-            []()
-            {
-            }
-        );
 
         vongLapCuaSoChinh.exec();
 

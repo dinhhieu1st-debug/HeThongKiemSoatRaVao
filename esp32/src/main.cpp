@@ -309,10 +309,11 @@ void xuLyKetQuaThe(const String &ketQua)
         Serial.println();
         Serial.println("==============================");
         Serial.println("THE HOP LE");
-        Serial.println("KEU 1 TIENG BIP");
+        Serial.println("MO CUA VA KEU 1 TIENG BIP");
         Serial.println("==============================");
 
         batDauChuoiBip(1);
+        xuLyLenhCua("OPEN");
         return;
     }
 

@@ -58,6 +58,7 @@ KetNoiBle::KetNoiBle(QObject *cha)
       dichVu(nullptr),
       timerConnectAfterScan(new QTimer(this)),
       timerReconnect(new QTimer(this)),
+      dangGhi(false),
       dangHoatDong(false),
       dangQuetLuaChon(false),
       dangChoQuetDung(false),
@@ -319,6 +320,32 @@ bool KetNoiBle::guiDuLieu(
         '|' +
         payload.trimmed().toUtf8();
 
+    hangDoiGhi.enqueue(frame);
+
+    if (!dangGhi)
+    {
+        guiGoiTiepTheo();
+    }
+
+    return true;
+}
+
+void KetNoiBle::guiGoiTiepTheo()
+{
+    if (
+        hangDoiGhi.isEmpty() ||
+        !sanSang ||
+        dichVu == nullptr ||
+        !characteristicGui.isValid()
+    )
+    {
+        dangGhi = false;
+        return;
+    }
+
+    dangGhi = true;
+    const QByteArray frame = hangDoiGhi.dequeue();
+
     const auto thuocTinh =
         characteristicGui.properties();
 
@@ -333,10 +360,8 @@ bool KetNoiBle::guiDuLieu(
             frame,
             QLowEnergyService::WriteWithResponse
         );
-        return true;
     }
-
-    if (
+    else if (
         thuocTinh.testFlag(
             QLowEnergyCharacteristic::WriteNoResponse
         )
@@ -347,10 +372,38 @@ bool KetNoiBle::guiDuLieu(
             frame,
             QLowEnergyService::WriteWithoutResponse
         );
-        return true;
-    }
 
-    return false;
+        dangGhi = false;
+
+        if (!hangDoiGhi.isEmpty())
+        {
+            QTimer::singleShot(
+                20,
+                this,
+                &KetNoiBle::guiGoiTiepTheo
+            );
+        }
+    }
+    else
+    {
+        dangGhi = false;
+    }
+}
+
+void KetNoiBle::xuLyCharacteristicDaGhi(
+    const QLowEnergyCharacteristic &characteristic,
+    const QByteArray &giaTri
+)
+{
+    Q_UNUSED(characteristic);
+    Q_UNUSED(giaTri);
+
+    dangGhi = false;
+
+    if (!hangDoiGhi.isEmpty())
+    {
+        guiGoiTiepTheo();
+    }
 }
 
 void KetNoiBle::xuLyTimThayThietBi(
@@ -720,6 +773,13 @@ void KetNoiBle::xuLyTimDichVuXong()
 
     connect(
         dichVu,
+        &QLowEnergyService::characteristicWritten,
+        this,
+        &KetNoiBle::xuLyCharacteristicDaGhi
+    );
+
+    connect(
+        dichVu,
         &QLowEnergyService::errorOccurred,
         this,
         &KetNoiBle::xuLyLoiDichVu
@@ -848,12 +908,16 @@ void KetNoiBle::datSanSang(bool giaTri)
     }
     else
     {
+        hangDoiGhi.clear();
+        dangGhi = false;
         emit daNgatKetNoiBle();
     }
 }
 
 void KetNoiBle::xoaController()
 {
+    hangDoiGhi.clear();
+    dangGhi = false;
     characteristicNhan = QLowEnergyCharacteristic();
     characteristicGui = QLowEnergyCharacteristic();
 

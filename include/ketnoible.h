@@ -7,6 +7,7 @@
 #include <QLowEnergyCharacteristic>
 #include <QLowEnergyDescriptor>
 #include <QObject>
+#include <QQueue>
 #include <QString>
 
 class QBluetoothDeviceDiscoveryAgent;
@@ -76,6 +77,10 @@ private slots:
         const QLowEnergyDescriptor &descriptor,
         const QByteArray &giaTri
     );
+    void xuLyCharacteristicDaGhi(
+        const QLowEnergyCharacteristic &characteristic,
+        const QByteArray &giaTri
+    );
     void xuLyLoiDichVu();
 
 private:
@@ -91,6 +96,7 @@ private:
     void henThuLai();
     void khoiPhucAdapterBluetooth();
     void xuLyFrame(const QByteArray &frame);
+    void guiGoiTiepTheo();
 
     QBluetoothAddress diaChiAdapterCucBo;
     QBluetoothDeviceDiscoveryAgent *boQuet;
@@ -106,6 +112,8 @@ private:
     QLowEnergyCharacteristic characteristicGui;
     QString diaChiDaChon;
 
+    QQueue<QByteArray> hangDoiGhi;
+    bool dangGhi;
     bool dangHoatDong;
     bool dangQuetLuaChon;
     bool dangChoQuetDung;

@@ -87,7 +87,7 @@ CaiDatHeThong::CaiDatHeThong(
     // Tao nhan thong bao
     lblNotification =
         new QLabel(
-            "Thay doi se co hieu luc sau khi khoi dong lai chuong trinh",
+            "Cau hinh se duoc luu va dong bo ngay voi ESP32 neu dang ket noi BLE",
             this
         );
 
@@ -209,8 +209,7 @@ void CaiDatHeThong::luuCauHinhTuGiaoDien()
     QMessageBox::information(
         this,
         "Luu cau hinh",
-        "Da luu cau hinh thanh cong.\n"
-        "Hay khoi dong lai chuong trinh de ap dung."
+        "Da luu cau hinh thanh cong."
     );
 
     accept();

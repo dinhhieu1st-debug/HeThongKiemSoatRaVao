@@ -16,6 +16,8 @@ class CuaSoChinh;
 }
 QT_END_NAMESPACE
 
+class QCloseEvent;
+
 class KetNoiBle;
 
 class CuaSoChinh : public QMainWindow
@@ -35,6 +37,12 @@ public:
 signals:
     // Bao cho main.cpp biet nguoi dung muon dang xuat
     void yeuCauDangXuat();
+
+    // Bao cho main.cpp biet nguoi dung da dong cua so chinh
+    void daDongCuaSo();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     // Dang xuat khoi tai khoan hien tai

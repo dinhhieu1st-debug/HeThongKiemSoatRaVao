@@ -6,6 +6,7 @@
 #include "ui_cuasochinh.h"
 
 #include <QAbstractItemView>
+#include <QCloseEvent>
 #include <QDateTime>
 #include <QDialog>
 #include <QFile>
@@ -186,7 +187,24 @@ CuaSoChinh::CuaSoChinh(
             }
 
             CaiDatHeThong cuaSoCaiDat(this);
-            cuaSoCaiDat.exec();
+            if (cuaSoCaiDat.exec() == QDialog::Accepted)
+            {
+                const CauHinhHeThong cauHinhMoi =
+                    QuanLyCauHinh::docCauHinh();
+
+                if (ketNoiBle->daKetNoi())
+                {
+                    guiThoiGianDongCua(
+                        cauHinhMoi.thoiGianDongCuaGiay
+                    );
+
+                    ghiNhatKy(
+                        "Da dong bo thoi gian dong cua moi: " +
+                        QString::number(cauHinhMoi.thoiGianDongCuaGiay) +
+                        "s xuong ESP32."
+                    );
+                }
+            }
 
             ghiNhatKy(
                 "Da dong cua so cai dat he thong."
@@ -458,7 +476,12 @@ CuaSoChinh::~CuaSoChinh()
     );
 
     ketNoiBle->dung();
+}
 
+void CuaSoChinh::closeEvent(QCloseEvent *event)
+{
+    emit daDongCuaSo();
+    QMainWindow::closeEvent(event);
 }
 
 void CuaSoChinh::xuLyDangXuat()
@@ -1465,23 +1488,10 @@ void CuaSoChinh::xuLyUidRfid(
             thongTinThe.hoTen
         );
 
-        if (guiKetQuaThe("GRANTED"))
-        {
-            ghiNhatKy(
-                "Da gui ket qua GRANTED toi ESP32."
-            );
-        }
-        else
-        {
-            ghiNhatKy(
-                "Khong gui duoc ket qua GRANTED."
-            );
-        }
-
         QString trangThaiCua =
             "Khong mo duoc";
 
-        if (guiLenhCua("OPEN"))
+        if (guiKetQuaThe("GRANTED"))
         {
             ui->lblDoorStatus->setText(
                 "Dang cho xac nhan mo"
@@ -1490,13 +1500,13 @@ void CuaSoChinh::xuLyUidRfid(
             trangThaiCua = "CHO XAC NHAN";
 
             ghiNhatKy(
-                "Da gui lenh OPEN do the hop le."
+                "Da gui ket qua GRANTED toi ESP32 de mo cua."
             );
         }
         else
         {
             ghiNhatKy(
-                "Khong gui duoc lenh OPEN."
+                "Khong gui duoc ket qua GRANTED."
             );
         }
 
@@ -1705,6 +1715,17 @@ void CuaSoChinh::xuLyMoCua()
     ghiNhatKy(
         "Da gui lenh mo cua thu cong."
     );
+
+    const int idLichSuMoi =
+        luuLichSuRaVao(
+            "THU_CONG",
+            hoTenNguoiDungHienTai,
+            tenDangNhapHienTai,
+            "CHO PHEP",
+            "CHO XAC NHAN"
+        );
+
+    idLichSuDangChoMoCua = idLichSuMoi;
 }
 
 void CuaSoChinh::xuLyDongCua()
